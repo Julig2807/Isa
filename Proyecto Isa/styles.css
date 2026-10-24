@@ -1,0 +1,343 @@
+/* ==================== RESET Y BASE ==================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #05070a;
+  color: #f0f4f8;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Tipografía serif para títulos */
+h1, h2, h3 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-weight: 400;
+}
+
+/* ==================== FONDO GALÁCTICO ==================== */
+#stars-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ==================== SECCIONES ==================== */
+.section {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 1.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  pointer-events: none;
+  user-select: none;
+}
+
+.section.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* ==================== PORTADA ==================== */
+.cover {
+  justify-content: center;
+  text-align: center;
+}
+
+.cover-content {
+  max-width: 640px;
+  animation: fadeInUp 1.2s ease both;
+}
+
+.cover h1 {
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  color: #ffffff;
+  margin-bottom: 1rem;
+  letter-spacing: 0.04em;
+}
+
+.intro {
+  font-size: clamp(1rem, 4vw, 1.25rem);
+  color: #b8c4d4;
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+/* ==================== SVG PERSONALIZADO ==================== */
+.isa-artwork {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 320px;
+  animation: fadeIn 1.4s ease both;
+}
+
+.isa-artwork svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ==================== BOTONES ==================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1.6rem;
+  font-family: inherit;
+  font-size: 1rem;
+  border: 1px solid #ffffff;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  border-radius: 999px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btn:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 4px;
+}
+
+.btn-primary {
+  font-weight: 500;
+}
+
+/* ==================== SECCIÓN 2: UNIVERSO ==================== */
+.universe, .exam-wrapper, .final-wrapper, .music-section {
+  text-align: center;
+}
+
+.section h2 {
+  font-size: clamp(1.75rem, 5vw, 2.25rem);
+  margin-bottom: 0.75rem;
+  color: #ffffff;
+}
+
+.section-subtitle {
+  font-size: clamp(1rem, 4vw, 1.15rem);
+  color: #a8b4c8;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+}
+
+.blocks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.reveal-block {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.reveal-block.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-block h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+}
+
+.reveal-block p {
+  font-size: 0.95rem;
+  color: #b8c4d4;
+  font-weight: 300;
+}
+
+.block-mark {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: #8fa8c4;
+  font-size: 1.25rem;
+}
+
+/* ==================== SECCIÓN 3: EXAMEN ==================== */
+.dedication {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: clamp(1.25rem, 4vw, 1.6rem);
+  font-style: italic;
+  color: #e2e8f0;
+  margin: 1.5rem 0;
+  max-width: 600px;
+  text-align: center;
+  line-height: 1.7;
+}
+
+.exam-note {
+  font-size: 1rem;
+  color: #94a3b8;
+  font-weight: 300;
+}
+
+/* ==================== SECCIÓN 4: MENSAJE FINAL ==================== */
+.btn-reveal, .btn-back {
+  margin-top: 1.5rem;
+}
+
+#final-message {
+  margin-top: 1.5rem;
+  animation: fadeIn 1s ease both;
+}
+
+.sparkle {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 1.5rem;
+  color: #ffffff;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ==================== MÚSICA ==================== */
+.music-section {
+  background: #030508;
+  padding-top: 3rem;
+  padding-bottom: 4rem;
+}
+
+.music-section h3 {
+  font-size: 1.15rem;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.spotify-wrapper {
+  width: 100%;
+  max-width: 640px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.spotify-placeholder {
+  color: #64748b;
+  font-size: 0.85rem;
+  padding: 1rem;
+  text-align: center;
+  font-style: italic;
+}
+
+.spotify-wrapper iframe {
+  width: 100%;
+  height: 152px;
+  border-radius: 8px;
+  display: block;
+}
+
+/* ==================== UTILIDADES ==================== */
+.container {
+  max-width: 800px;
+  width: 100%;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ==================== ANIMACIONES ==================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+/* ==================== REDUCED MOTION ==================== */
+@media (prefers-reduced-motion: reduce) {
+  .section,
+  .cover-content,
+  .isa-artwork,
+  .reveal-block,
+  #final-message,
+  .sparkle {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .section {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal-block {
+    opacity: 1;
+    transform: none;
+  }
+
+  .sparkle {
+    animation: none;
+  }
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 480px) {
+  body {
+    padding: 0;
+  }
+
+  .section {
+    padding: 3rem 1.25rem;
+  }
+
+  .blocks-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 280px;
+  }
+}
