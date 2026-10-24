@@ -9,13 +9,24 @@
   <link rel="preload" as="image" href="isa-artwork.png">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="is-loading">
+<body class="is-loading is-locked">
   <canvas id="starfield" class="starfield" aria-hidden="true"></canvas>
   <div class="vignette" aria-hidden="true"></div>
 
+  <!-- PANTALLA DE ESPERA: se elimina sola al llegar la hora -->
+  <section id="lock-screen" class="lock" aria-labelledby="lock-title">
+    <div class="lock__inner">
+      <svg class="lock__star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19" /></svg>
+      <h1 id="lock-title" class="lock__title">Aún no es el momento</h1>
+      <p class="lock__text">Este cielo se abrirá el lunes 26 de octubre a las 9:00 a.&nbsp;m.</p>
+      <p class="lock__countdown" id="lock-countdown" aria-hidden="true">--</p>
+      <noscript><p class="lock__text">Activa JavaScript para ver esta página cuando llegue la hora.</p></noscript>
+    </div>
+  </section>
+
   <a class="skip-link" href="#universo">Saltar al contenido</a>
 
-  <nav class="site-nav" aria-label="Secciones">
+  <nav class="site-nav" aria-label="Secciones" hidden>
     <ul>
       <li><a href="#portada">Inicio</a></li>
       <li><a href="#universo">Tu universo</a></li>
@@ -23,6 +34,8 @@
       <li><a href="#final">Mensaje</a></li>
     </ul>
   </nav>
+
+  <main id="contenido" hidden>
 
   <main>
     <!-- SECCIÓN 1: PORTADA -->
@@ -124,10 +137,10 @@
     </section>
   </main>
 
-  <footer class="site-footer">
+  <footer class="site-footer" hidden>
     <p>Hecho para Isa</p>
   </footer>
-
+    
   <script src="script.js"></script>
 </body>
 </html>
