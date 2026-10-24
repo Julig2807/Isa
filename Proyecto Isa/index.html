@@ -1,38 +1,135 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Para Isa — Antes de tu examen</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Para Isa — Antes de tu examen</title>
+    <meta
+      name="description"
+      content="Una pequeña experiencia para Isa antes de su examen."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="stars-canvas" aria-hidden="true"></canvas>
 
-  <!-- ==================== FONDO GALÁCTICO ==================== -->
-  <canvas id="stars-canvas" aria-hidden="true"></canvas>
+    <section id="cover" class="section active">
+      <div class="cover-content">
+        <div class="isa-artwork" role="img" aria-label="Ilustración abstracta de Isa">
+          <svg viewBox="0 0 320 320" aria-hidden="true">
+            <defs>
+              <linearGradient id="bgGlow" x1="0%" x2="100%" y1="0%" y2="100%">
+                <stop offset="0%" stop-color="#ffd6e8" />
+                <stop offset="50%" stop-color="#d8c6ff" />
+                <stop offset="100%" stop-color="#9ad7ff" />
+              </linearGradient>
+              <linearGradient id="shirtGrad" x1="0%" x2="100%" y1="0%" y2="100%">
+                <stop offset="0%" stop-color="#f9b6d9" />
+                <stop offset="100%" stop-color="#b892ff" />
+              </linearGradient>
+            </defs>
 
-  <!-- ==================== SECCIÓN 1: PORTADA ==================== -->
-  <section id="cover" class="section">
-    <div class="cover-content">
-      <div class="isa-artwork" aria-label="Ilustración personalizada de Isa">
-        <!-- TU SVG PERSONALIZADO AQUÍ -->
-<?xml version="1.0" encoding="utf-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" height="1442" preserveAspectRatio="xMidYMid meet" version="1.0" viewBox="0 0 810 1081.499972" width="1080" zoomAndPan="magnify">
-  <defs>
-    <filter height="100%" id="bc4ea34058" width="100%" x="0%" y="0%">
-      <feColorMatrix color-interpolation-filters="sRGB" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"/>
-    </filter>
-    <filter height="100%" id="9708c2ee83" width="100%" x="0%" y="0%">
-      <feColorMatrix color-interpolation-filters="sRGB" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0.2126 0.7152 0.0722 0 0"/>
-    </filter>
-    <g/>
-    <clipPath id="374166b615">
-      <path clip-rule="nonzero" d="M 0.1875 0 L 809.8125 0 L 809.8125 1081 L 0.1875 1081 Z M 0.1875 0"/>
-    </clipPath>
-    <clipPath id="1be3604411">
-      <path clip-rule="nonzero" d="M 0.1875 0.433594 L 809.8125 0.433594 L 809.8125 1080.683594 L 0.1875 1080.683594 Z M 0.1875 0.433594"/>
-    </clipPath>
-    <mask id="e0862a9881">
-      <g filter="url(#bc4ea34058)">
-        <g filter="url(#9708c2ee83)" transform="matrix(0.944769, 0, 0, 0.944388, 163.540936, 156.894774)">
-          <image height="512" href="data:image/png;base64,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... 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... +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
+            <circle cx="160" cy="160" r="126" fill="rgba(255,255,255,0.08)" />
+            <circle cx="160" cy="160" r="104" fill="url(#bgGlow)" opacity="0.7" />
+
+            <g opacity="0.85">
+              <circle cx="72" cy="78" r="4" fill="#fff" />
+              <circle cx="250" cy="62" r="3" fill="#fff" />
+              <circle cx="268" cy="200" r="4" fill="#fff" />
+              <circle cx="92" cy="236" r="3" fill="#fff" />
+              <circle cx="230" cy="240" r="2.5" fill="#fff" />
+            </g>
+
+            <g>
+              <path d="M104 118c0-26 22-48 49-48h17c27 0 49 22 49 48v6c0 17-9 32-23 41l-25 16-25-16c-14-9-23-24-23-41v-6z" fill="#f5d8c6" />
+              <path d="M118 122c0-24 19-43 43-43h2c24 0 43 19 43 43v8c0 11-6 20-15 26l-19 12-19-12c-9-6-15-15-15-26v-8z" fill="#2b1f2c" opacity="0.75" />
+              <path d="M120 108c8-26 26-38 40-38 17 0 31 12 39 38-10-8-24-12-39-12s-29 4-40 12z" fill="#2b1f2c" />
+              <circle cx="160" cy="124" r="5" fill="#2b1f2c" />
+              <path d="M142 150c8 8 12 11 18 11s10-3 18-11" fill="none" stroke="#9f5a6e" stroke-width="4" stroke-linecap="round"/>
+            </g>
+
+            <path d="M88 214c12-28 36-42 72-42s60 14 72 42l-12 68H100l-12-68z" fill="url(#shirtGrad)" />
+            <path d="M130 215h60l-8 72h-44l-8-72z" fill="rgba(255,255,255,0.18)" />
+            <circle cx="127" cy="236" r="8" fill="#f5d8c6" opacity="0.9" />
+            <circle cx="193" cy="236" r="8" fill="#f5d8c6" opacity="0.9" />
+            <path d="M146 260c7 8 11 12 14 12 3 0 7-4 14-12" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+            <path d="M82 186c-16 22-23 36-23 58" fill="none" stroke="#d2c4ff" stroke-width="12" stroke-linecap="round" opacity="0.7"/>
+            <path d="M238 186c16 22 23 36 23 58" fill="none" stroke="#d2c4ff" stroke-width="12" stroke-linecap="round" opacity="0.7"/>
+          </svg>
+        </div>
+
+        <h1>Para Isa</h1>
+        <p class="intro">Antes de tu examen, quiero recordarte lo brillante que eres.</p>
+        <button id="start-btn" class="btn btn-primary" type="button">Empezar</button>
+      </div>
+    </section>
+
+    <section id="universe" class="section">
+      <div class="container">
+        <h2>Un universo que te merece</h2>
+        <p class="section-subtitle">Y tú, con esa mente y ese corazón, lo conviertes en algo increíble.</p>
+
+        <div class="blocks-grid">
+          <article class="reveal-block">
+            <h3>Inteligencia</h3>
+            <p>Analizas, aprendes y entiendes más de lo que te das cuenta.</p>
+            <span class="block-mark">✦</span>
+          </article>
+
+          <article class="reveal-block">
+            <h3>Valentía</h3>
+            <p>Te enfrentas a lo difícil con calma, presencia y una fuerza enorme.</p>
+            <span class="block-mark">★</span>
+          </article>
+
+          <article class="reveal-block">
+            <h3>Amor</h3>
+            <p>Eres luz para quienes te rodean, y también para ti misma.</p>
+            <span class="block-mark">❤</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="exam" class="section">
+      <div class="container">
+        <h2>Antes de tu examen</h2>
+        <p class="dedication">
+          “No necesitas demostrarle nada a nadie. Ya sabes lo brillante que eres.”
+        </p>
+        <p class="exam-note">Respira, confía y recuerda: lo que has aprendido se queda contigo.</p>
+        <button id="reveal-btn" class="btn btn-primary" type="button">Ver mi mensaje secreto</button>
+
+        <div id="final-message" class="hidden">
+          <p class="sparkle">✦</p>
+          <p class="dedication">Te quiero mucho, Isa. Estoy orgulloso de ti y sé que vas a hacerlo genial.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="final" class="section">
+      <div class="container">
+        <h2>Eso es todo</h2>
+        <p class="section-subtitle">No importa el resultado, lo importante es que tú te has esforzado con el corazón.</p>
+        <button id="back-btn" class="btn btn-primary" type="button">Volver al inicio</button>
+      </div>
+    </section>
+
+    <section id="music" class="section music-section" aria-label="Sección musical">
+      <div class="container">
+        <h3>Una canción para acompañarte</h3>
+        <div class="spotify-wrapper">
+          <iframe
+            src="https://open.spotify.com/embed/track/5Q0Nhxo0l2bP3pLjKRrvjX?utm_source=generator"
+            title="Spotify player"
+            allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>
