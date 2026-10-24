@@ -186,8 +186,7 @@
       
   /* ---------- Bloqueo hasta la fecha de apertura ---------- */
   // Lunes 26 de octubre de 2026, 9:05 a. m. hora Colombia (UTC-5)
-  var UNLOCK_AT = new Date('2026-10-26T09:05:00-05:00').getTime();
-
+  var UNLOCK_AT = new Datenew Date(Date.now() + 15000).getTime().
   var lockScreen = document.getElementById('lock-screen');
   var lockCountdown = document.getElementById('lock-countdown');
   var protectedEls = document.querySelectorAll('#contenido, .site-nav, .site-footer');
