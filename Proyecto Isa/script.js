@@ -1,150 +1,186 @@
-/**
- * Proyecto: Una experiencia web personalizada para Isa
- * Archivo: script.js
- * Descripción: Interacciones vanilla JS, fondo de estrellas con canvas,
- * navegación entre secciones, scroll reveal y revelación del mensaje final.
- */
-
 (function () {
   'use strict';
 
-  // ==================== ESTADO ==================== //
-  const sections = document.querySelectorAll('.section');
-  let currentIndex = 0;
+  document.documentElement.classList.add('js');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ==================== FONDO GALÁCTICO (CANVAS) ==================== //
-  const canvas = document.getElementById('stars-canvas');
-  const ctx = canvas.getContext('2d');
-  let width, height;
-  let stars = [];
-  let animationId;
-
-  const STAR_COUNT = 120;
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* ---------- Fondo de estrellas (canvas, sin servicios externos) ---------- */
+  var canvas = document.getElementById('starfield');
+  var ctx = canvas.getContext('2d');
+  var stars = [];
+  var w = 0, h = 0, dpr = 1;
+  var rafId = null;
+  var lastFrame = 0;
 
   function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    createStars();
+    draw(performance.now());
   }
 
-  function createStar() {
-    return {
-      x: Math.random() * width,
-      y: Math.random() * height,
-      size: Math.random() * 1.5 + 0.5,
-      opacity: Math.random() * 0.7 + 0.2,
-      speed: Math.random() * 0.03 + 0.01,
-      twinkleOffset: Math.random() * Math.PI * 2,
-      twinkleSpeed: Math.random() * 0.02 + 0.01
-    };
-  }
-
-  function initStars() {
+  function createStars() {
+    var count = Math.min(Math.round((w * h) / 4500), 280);
     stars = [];
-    for (let i = 0; i < STAR_COUNT; i++) {
-      stars.push(createStar());
+    for (var i = 0; i < count; i++) {
+      var depth = Math.random();
+      stars.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: 0.3 + depth * 1.2,
+        base: 0.2 + depth * 0.6,
+        speed: 0.0004 + Math.random() * 0.0012,
+        phase: Math.random() * Math.PI * 2,
+        twinkle: Math.random() < 0.25,
+        silver: Math.random() < 0.15
+      });
     }
   }
 
-  function drawStars() {
-    ctx.clearRect(0, 0, width, height);
-    const time = Date.now() * 0.001;
-
-    stars.forEach((star) => {
-      if (reducedMotion) {
-        ctx.globalAlpha = star.opacity;
-      } else {
-        ctx.globalAlpha = star.opacity + Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.15;
+  function draw(t) {
+    ctx.clearRect(0, 0, w, h);
+    for (var i = 0; i < stars.length; i++) {
+      var s = stars[i];
+      var a = s.base;
+      if (s.twinkle && !reduceMotion) {
+        a = s.base * (0.55 + 0.45 * Math.sin(t * s.speed + s.phase));
       }
-
-      ctx.fillStyle = '#ffffff';
+      ctx.globalAlpha = Math.max(0.05, Math.min(1, a));
+      ctx.fillStyle = s.silver ? '#c4c9d6' : '#ffffff';
       ctx.beginPath();
-      ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
       ctx.fill();
-    });
-
-    if (!reducedMotion) {
-      animationId = requestAnimationFrame(drawStars);
     }
+    ctx.globalAlpha = 1;
   }
 
-  window.addEventListener('resize', resize);
-  resize();
-  initStars();
-
-  if (!reducedMotion) {
-    drawStars();
-  } else {
-    ctx.clearRect(0, 0, width, height);
-    stars.forEach((star) => {
-      ctx.globalAlpha = star.opacity;
-      ctx.fillStyle = '#ffffff';
-      ctx.beginPath();
-      ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-      ctx.fill();
-    });
+  function loop(t) {
+    if (t - lastFrame > 66) { // ~15 fps, suficiente para destellos suaves
+      draw(t);
+      lastFrame = t;
+    }
+    rafId = requestAnimationFrame(loop);
   }
 
-  // ==================== NAVEGACIÓN ENTRE SECCIONES ==================== //
-  function showSection(index) {
-    sections.forEach((sec, i) => {
-      sec.classList.toggle('active', i === index);
-    });
-    currentIndex = index;
+  function start() {
+    if (reduceMotion || rafId) return;
+    rafId = requestAnimationFrame(loop);
+  }
+  function stop() {
+    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
   }
 
-  const startBtn = document.getElementById('start-btn');
-  const backBtn = document.getElementById('back-btn');
-
-  if (startBtn) {
-    startBtn.addEventListener('click', () => {
-      showSection(1);
-    });
-  }
-
-  if (backBtn) {
-    backBtn.addEventListener('click', () => {
-      showSection(0);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
-
-  // ==================== SCROLL REVEAL CON INTERSECTIONOBSERVER ==================== //
-  const revealBlocks = document.querySelectorAll('.reveal-block');
-
-  const observerOptions = {
-    threshold: 0.12,
-    rootMargin: '0px 0px -50px 0px'
-  };
-
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, observerOptions);
-
-  revealBlocks.forEach((block) => {
-    revealObserver.observe(block);
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(resize, 200);
+  });
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) stop(); else start();
   });
 
-  // ==================== REVELACIÓN DEL MENSAJE FINAL ==================== //
-  const revealBtn = document.getElementById('reveal-btn');
-  const finalMessage = document.getElementById('final-message');
+  resize();
+  requestAnimationFrame(function () {
+    document.body.classList.remove('is-loading');
+    document.body.classList.add('is-ready');
+  });
+  start();
 
-  if (revealBtn && finalMessage) {
-    revealBtn.addEventListener('click', () => {
-      if (finalMessage.classList.contains('hidden')) {
-        finalMessage.classList.remove('hidden');
-        revealBtn.textContent = 'Mensaje revelado';
-        revealBtn.disabled = true;
-      }
+  /* Destello ocasional: una estrella aleatoria brilla brevemente */
+  function flare() {
+    if (reduceMotion || document.hidden || !stars.length) return;
+    var s = stars[Math.floor(Math.random() * stars.length)];
+    var origR = s.r, origBase = s.base;
+    s.r = origR * 2.2;
+    s.base = Math.min(1, origBase + 0.4);
+    setTimeout(function () { s.r = origR; s.base = origBase; }, 900);
+  }
+  if (!reduceMotion) {
+    (function schedule() {
+      setTimeout(function () { flare(); schedule(); }, 3500 + Math.random() * 5000);
+    })();
+  }
+
+  /* ---------- Aparición al hacer scroll ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
+    revealEls.forEach(function (el) { io.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('is-visible'); });
+  }
+
+  /* ---------- Navegación suave ---------- */
+  function goTo(selector) {
+    var target = document.querySelector(selector);
+    if (!target) return;
+    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+    if (history.replaceState) history.replaceState(null, '', selector);
+  }
+
+  document.querySelectorAll('[data-scroll-to]').forEach(function (btn) {
+    btn.addEventListener('click', function () { goTo(btn.getAttribute('data-scroll-to')); });
+  });
+  document.querySelectorAll('.site-nav a').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      goTo(link.getAttribute('href'));
+    });
+  });
+
+  /* Enlace activo en la navegación */
+  var navLinks = document.querySelectorAll('.site-nav a');
+  if ('IntersectionObserver' in window) {
+    var sectionObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          navLinks.forEach(function (l) {
+            l.classList.toggle('is-active', l.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { threshold: 0.5 });
+    ['portada', 'universo', 'capitulo', 'final'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) sectionObserver.observe(el);
     });
   }
 
-  // ==================== INICIALIZACIÓN ==================== //
-  // La portada está activa por defecto (clase 'active' en el HTML).
-  // Si JavaScript no carga, todas las secciones siguen visibles en el DOM.
+  /* ---------- Mensaje final ---------- */
+  var revealBtn = document.getElementById('reveal-btn');
+  var message = document.getElementById('final-message');
+  if (revealBtn && message) {
+    revealBtn.addEventListener('click', function () {
+      message.classList.add('is-open');
+      revealBtn.setAttribute('aria-expanded', 'true');
+      revealBtn.classList.add('is-hidden');
+      setTimeout(function () {
+        message.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+      }, 300);
+    });
+  }
+
+  /* ---------- SVG: marcador si el archivo no se encuentra ---------- */
+  var art = document.querySelector('.isa-artwork');
+  var img = art && art.querySelector('.isa-artwork__img');
+  var ph = art && art.querySelector('.isa-artwork__placeholder');
+  if (img && ph) {
+    img.addEventListener('error', function () {
+      art.classList.add('is-missing');
+      ph.hidden = false;
+    });
+  }
 })();
