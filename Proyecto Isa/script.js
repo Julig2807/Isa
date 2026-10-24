@@ -2,13 +2,17 @@
   'use strict';
 
   document.documentElement.classList.add('js');
+
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- Fondo de estrellas (canvas, sin servicios externos) ---------- */
+  /* ---------- Fondo de estrellas ---------- */
+
   var canvas = document.getElementById('starfield');
   var ctx = canvas.getContext('2d');
   var stars = [];
-  var w = 0, h = 0, dpr = 1;
+  var w = 0;
+  var h = 0;
+  var dpr = 1;
   var rafId = null;
   var lastFrame = 0;
 
@@ -16,9 +20,11 @@
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     w = window.innerWidth;
     h = window.innerHeight;
+
     canvas.width = w * dpr;
     canvas.height = h * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
     createStars();
     draw(performance.now());
   }
@@ -26,8 +32,10 @@
   function createStars() {
     var count = Math.min(Math.round((w * h) / 4500), 280);
     stars = [];
+
     for (var i = 0; i < count; i++) {
       var depth = Math.random();
+
       stars.push({
         x: Math.random() * w,
         y: Math.random() * h,
@@ -43,26 +51,31 @@
 
   function draw(t) {
     ctx.clearRect(0, 0, w, h);
+
     for (var i = 0; i < stars.length; i++) {
       var s = stars[i];
-      var a = s.base;
+      var alpha = s.base;
+
       if (s.twinkle && !reduceMotion) {
-        a = s.base * (0.55 + 0.45 * Math.sin(t * s.speed + s.phase));
+        alpha = s.base * (0.55 + 0.45 * Math.sin(t * s.speed + s.phase));
       }
-      ctx.globalAlpha = Math.max(0.05, Math.min(1, a));
+
+      ctx.globalAlpha = Math.max(0.05, Math.min(1, alpha));
       ctx.fillStyle = s.silver ? '#c4c9d6' : '#ffffff';
       ctx.beginPath();
       ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
       ctx.fill();
     }
+
     ctx.globalAlpha = 1;
   }
 
   function loop(t) {
-    if (t - lastFrame > 66) { // ~15 fps, suficiente para destellos suaves
+    if (t - lastFrame > 66) {
       draw(t);
       lastFrame = t;
     }
+
     rafId = requestAnimationFrame(loop);
   }
 
@@ -70,117 +83,162 @@
     if (reduceMotion || rafId) return;
     rafId = requestAnimationFrame(loop);
   }
+
   function stop() {
-    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
   }
 
   var resizeTimer;
+
   window.addEventListener('resize', function () {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(resize, 200);
   });
+
   document.addEventListener('visibilitychange', function () {
-    if (document.hidden) stop(); else start();
+    if (document.hidden) {
+      stop();
+    } else {
+      start();
+    }
   });
 
   resize();
+  start();
+
   requestAnimationFrame(function () {
     document.body.classList.remove('is-loading');
     document.body.classList.add('is-ready');
   });
-  start();
-
-  /* Destello ocasional: una estrella aleatoria brilla brevemente */
-  function flare() {
-    if (reduceMotion || document.hidden || !stars.length) return;
-    var s = stars[Math.floor(Math.random() * stars.length)];
-    var origR = s.r, origBase = s.base;
-    s.r = origR * 2.2;
-    s.base = Math.min(1, origBase + 0.4);
-    setTimeout(function () { s.r = origR; s.base = origBase; }, 900);
-  }
-  if (!reduceMotion) {
-    (function schedule() {
-      setTimeout(function () { flare(); schedule(); }, 3500 + Math.random() * 5000);
-    })();
-  }
 
   /* ---------- Aparición al hacer scroll ---------- */
+
   var revealEls = document.querySelectorAll('.reveal');
+
   if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
-    revealEls.forEach(function (el) { io.observe(el); });
+    var revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: '0px 0px -5% 0px'
+      }
+    );
+
+    revealEls.forEach(function (element) {
+      revealObserver.observe(element);
+    });
   } else {
-    revealEls.forEach(function (el) { el.classList.add('is-visible'); });
+    revealEls.forEach(function (element) {
+      element.classList.add('is-visible');
+    });
   }
 
   /* ---------- Navegación suave ---------- */
+
   function goTo(selector) {
     var target = document.querySelector(selector);
+
     if (!target) return;
-    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+
+    target.scrollIntoView({
+      behavior: reduceMotion ? 'auto' : 'smooth',
+      block: 'start'
+    });
+
+    if (!target.hasAttribute('tabindex')) {
+      target.setAttribute('tabindex', '-1');
+    }
+
     target.focus({ preventScroll: true });
-    if (history.replaceState) history.replaceState(null, '', selector);
+
+    if (history.replaceState) {
+      history.replaceState(null, '', selector);
+    }
   }
 
-  document.querySelectorAll('[data-scroll-to]').forEach(function (btn) {
-    btn.addEventListener('click', function () { goTo(btn.getAttribute('data-scroll-to')); });
+  document.querySelectorAll('[data-scroll-to]').forEach(function (button) {
+    button.addEventListener('click', function () {
+      goTo(button.getAttribute('data-scroll-to'));
+    });
   });
+
   document.querySelectorAll('.site-nav a').forEach(function (link) {
-    link.addEventListener('click', function (e) {
-      e.preventDefault();
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
       goTo(link.getAttribute('href'));
     });
   });
 
-  /* Enlace activo en la navegación */
+  /* ---------- Enlace activo en la navegación ---------- */
+
   var navLinks = document.querySelectorAll('.site-nav a');
+
   if ('IntersectionObserver' in window) {
-    var sectionObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          navLinks.forEach(function (l) {
-            l.classList.toggle('is-active', l.getAttribute('href') === '#' + entry.target.id);
-          });
-        }
-      });
-    }, { threshold: 0.5 });
+    var sectionObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            navLinks.forEach(function (link) {
+              link.classList.toggle(
+                'is-active',
+                link.getAttribute('href') === '#' + entry.target.id
+              );
+            });
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
     ['portada', 'universo', 'capitulo', 'final'].forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el) sectionObserver.observe(el);
+      var section = document.getElementById(id);
+
+      if (section) {
+        sectionObserver.observe(section);
+      }
     });
   }
 
   /* ---------- Mensaje final ---------- */
-  var revealBtn = document.getElementById('reveal-btn');
-  var message = document.getElementById('final-message');
-  if (revealBtn && message) {
-    revealBtn.addEventListener('click', function () {
-      message.classList.add('is-open');
-      revealBtn.setAttribute('aria-expanded', 'true');
-      revealBtn.classList.add('is-hidden');
+
+  var revealButton = document.getElementById('reveal-btn');
+  var finalMessage = document.getElementById('final-message');
+
+  if (revealButton && finalMessage) {
+    revealButton.addEventListener('click', function () {
+      finalMessage.classList.add('is-open');
+      revealButton.setAttribute('aria-expanded', 'true');
+      revealButton.classList.add('is-hidden');
+
       setTimeout(function () {
-        message.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+        finalMessage.scrollIntoView({
+          behavior: reduceMotion ? 'auto' : 'smooth',
+          block: 'center'
+        });
       }, 300);
     });
   }
 
-  /* ---------- SVG: marcador si el archivo no se encuentra ---------- */
-  var art = document.querySelector('.isa-artwork');
-  var img = art && art.querySelector('.isa-artwork__img');
-  var ph = art && art.querySelector('.isa-artwork__placeholder');
-  if (img && ph) {
-    img.addEventListener('error', function () {
-      art.classList.add('is-missing');
-      ph.hidden = false;
+  /* ---------- Marcador si la imagen no se encuentra ---------- */
+
+  var artwork = document.querySelector('.isa-artwork');
+  var artworkImage = artwork && artwork.querySelector('.isa-artwork__img');
+  var artworkPlaceholder = artwork && artwork.querySelector('.isa-artwork__placeholder');
+
+  if (artworkImage && artworkPlaceholder) {
+    artworkImage.addEventListener('error', function () {
+      artwork.classList.add('is-missing');
+      artworkPlaceholder.hidden = false;
     });
   }
 })();
