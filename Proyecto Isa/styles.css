@@ -334,3 +334,33 @@ html:not(.js) #reveal-btn { display: none; }
   }
   .starfield { transition: none; }
 }
+
+
+/* Pantalla de espera */
+.lock {
+  position: relative;
+  z-index: 3;
+  min-height: 100svh;
+  padding: 2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: opacity 1.6s var(--ease);
+}
+.lock.is-leaving { opacity: 0; pointer-events: none; }
+.lock__inner { max-width: 28rem; display: flex; flex-direction: column; align-items: center; gap: 1.25rem; }
+.lock__star { width: 34px; height: 34px; fill: none; stroke: var(--silver); stroke-width: .8; stroke-linecap: round; opacity: .85; }
+.lock__title { font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 9vw, 3rem); margin: 0; letter-spacing: .03em; }
+.lock__text { color: var(--muted); margin: 0; }
+.lock__countdown {
+  margin: .5rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 7vw, 2.1rem);
+  letter-spacing: .06em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+[hidden] { display: none !important; }
