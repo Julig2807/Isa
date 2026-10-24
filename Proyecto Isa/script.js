@@ -186,17 +186,17 @@
       
   /* ---------- Bloqueo hasta la fecha de apertura ---------- */
   // Lunes 26 de octubre de 2026, 9:05 a. m. hora Colombia (UTC-5)
- var UNLOCK_AT = Date.now() + 15000;
+
+  var UNLOCK_AT = Date.now() + 15000; // PRUEBA. Para publicar: new Date('2026-10-26T09:05:00-05:00').getTime()
+
   var lockScreen = document.getElementById('lock-screen');
   var lockCountdown = document.getElementById('lock-countdown');
   var protectedEls = document.querySelectorAll('#contenido, .site-nav, .site-footer');
-  var clockOffset = 0; // diferencia entre el reloj del servidor y el del dispositivo
+  var clockOffset = 0;
   var lockTimer = null;
 
   function now() { return Date.now() + clockOffset; }
 
-  // Intenta usar la hora del servidor (evita que cambien el reloj del teléfono).
-  // Solo funciona al estar publicada; abierta como archivo local usa el reloj del dispositivo.
   function syncWithServer() {
     if (!window.fetch || location.protocol === 'file:') return Promise.resolve();
     var timeout = new Promise(function (resolve) { setTimeout(resolve, 3000); });
