@@ -181,6 +181,70 @@
     img.addEventListener('error', function () {
       art.classList.add('is-missing');
       ph.hidden = false;
+
+
+      
+  /* ---------- Bloqueo hasta la fecha de apertura ---------- */
+  // Lunes 26 de octubre de 2026, 9:05 a. m. hora Colombia (UTC-5)
+  var UNLOCK_AT = new Date('2026-10-26T09:05:00-05:00').getTime();
+
+  var lockScreen = document.getElementById('lock-screen');
+  var lockCountdown = document.getElementById('lock-countdown');
+  var protectedEls = document.querySelectorAll('#contenido, .site-nav, .site-footer');
+  var clockOffset = 0; // diferencia entre el reloj del servidor y el del dispositivo
+  var lockTimer = null;
+
+  function now() { return Date.now() + clockOffset; }
+
+  // Intenta usar la hora del servidor (evita que cambien el reloj del teléfono).
+  // Solo funciona al estar publicada; abierta como archivo local usa el reloj del dispositivo.
+  function syncWithServer() {
+    if (!window.fetch || location.protocol === 'file:') return Promise.resolve();
+    var timeout = new Promise(function (resolve) { setTimeout(resolve, 3000); });
+    var request = fetch(location.href, { method: 'HEAD', cache: 'no-store' })
+      .then(function (res) {
+        var header = res.headers.get('Date');
+        if (header) {
+          var serverTime = new Date(header).getTime();
+          if (!isNaN(serverTime)) clockOffset = serverTime - Date.now();
+        }
+      })
+      .catch(function () {});
+    return Promise.race([request, timeout]);
+  }
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function renderCountdown(ms) {
+    var total = Math.max(0, Math.floor(ms / 1000));
+    var d = Math.floor(total / 86400);
+    var h = Math.floor((total % 86400) / 3600);
+    var m = Math.floor((total % 3600) / 60);
+    var s = total % 60;
+    lockCountdown.textContent = (d > 0 ? d + ' d  ' : '') + pad(h) + ' : ' + pad(m) + ' : ' + pad(s);
+  }
+
+  function unlock() {
+    if (lockTimer) { clearInterval(lockTimer); lockTimer = null; }
+    protectedEls.forEach(function (el) { el.hidden = false; });
+    document.body.classList.remove('is-locked');
+    window.scrollTo(0, 0);
+    if (lockScreen) {
+      lockScreen.classList.add('is-leaving');
+      setTimeout(function () { lockScreen.remove(); }, reduceMotion ? 0 : 1700);
+    }
+  }
+
+  function tick() {
+    var remaining = UNLOCK_AT - now();
+    if (remaining <= 0) { unlock(); return; }
+    renderCountdown(remaining);
+  }
+
+  if (lockScreen) {
+    syncWithServer().then(function () {
+      if (UNLOCK_AT - now() <= 0) { unlock(); return; }
+      tick();
+      lockTimer = setInterval(tick, 1000);
     });
   }
-})();
