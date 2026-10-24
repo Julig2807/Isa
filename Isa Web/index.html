@@ -25,6 +25,18 @@
   </nav>
 
   <main>
+
+     <!-- MÚSICA -->
+    <section id="cancion" class="section section--song" aria-labelledby="titulo-cancion">
+      <div class="song reveal">
+        <h2 id="titulo-cancion" class="song__title">Tu canción para acompañar este momento</h2>
+        <div class="song__player">
+          <!-- Reproductor oficial de Spotify. Para cambiar la canción: Spotify > Compartir > Insertar y reemplaza el iframe. -->
+          <iframe data-testid="embed-iframe" title="Reproductor de Spotify" style="border-radius:12px" src="https://open.spotify.com/embed/track/1ZdYFgk6ZA2xqCJS5eADGC?utm_source=generator&amp;si=57d3371d5a0946f5" width="100%" height="152" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+    
     <!-- SECCIÓN 1: PORTADA -->
     <section id="portada" class="section section--cover" aria-labelledby="titulo-portada">
       <div class="cover__inner">
@@ -41,8 +53,8 @@
       <span class="scroll-hint" aria-hidden="true"></span>
     </section>
 
-   <!-- SECCIÓN 2: EL UNIVERSO DE ISA -->
-    <section id="universo" class="section" aria-labelledby="titulo-universo">
+    <!-- SECCIÓN 2: EL UNIVERSO DE ISA -->
+   <section id="universo" class="section" aria-labelledby="titulo-universo">
       <header class="section__header reveal">
         <p class="eyebrow">I</p>
         <h2 id="titulo-universo" class="title title--section">El universo de Isa</h2>
@@ -77,6 +89,7 @@
       </div>
     </section>
 
+
     <!-- SECCIÓN 3: SU PRÓXIMO CAPÍTULO -->
     <section id="capitulo" class="section" aria-labelledby="titulo-capitulo">
       <div class="chapter">
@@ -85,21 +98,11 @@
         <p class="prose reveal">Todo lo que has estudiado, las noches largas y las veces que seguiste adelante ya forman parte de ti. Este examen es un paso más en un camino que es tuyo, y lo recorres a tu propio ritmo.</p>
         <p class="prose reveal">Respira, confía en lo que has construido y recuerda que tu valor no depende de una cifra ni de una hoja de respuestas. Pase lo que pase, tu esfuerzo ya es real.</p>
         <blockquote class="dedication reveal">
-          <p>[Sé que lo vas a romper con todo.]</p>
+          <p>[MENSAJE PERSONAL PARA ISA]</p>
         </blockquote>
       </div>
     </section>
 
-    <!-- MÚSICA -->
-    <section id="cancion" class="section section--song" aria-labelledby="titulo-cancion">
-      <div class="song reveal">
-        <h2 id="titulo-cancion" class="song__title">Tu canción para acompañar este momento</h2>
-        <div class="song__player">
-          <!-- Reproductor oficial de Spotify. Para cambiar la canción: Spotify > Compartir > Insertar y reemplaza el iframe. -->
-          <iframe data-testid="embed-iframe" title="Reproductor de Spotify" style="border-radius:12px" src="https://open.spotify.com/embed/track/1ZdYFgk6ZA2xqCJS5eADGC?utm_source=generator&amp;si=57d3371d5a0946f5" width="100%" height="152" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-        </div>
-      </div>
-    </section>
 
     <!-- SECCIÓN 4: MENSAJE FINAL -->
     <section id="final" class="section section--final" aria-labelledby="titulo-final">
@@ -115,7 +118,7 @@
             <circle cx="10" cy="60" r="2.2"/><circle cx="50" cy="30" r="2.6"/><circle cx="95" cy="45" r="2"/><circle cx="140" cy="15" r="3"/><circle cx="190" cy="35" r="2.2"/>
           </svg>
           <p class="final-message__text">Confío en ti, hoy y siempre. Ve con calma: el cielo estará aquí cuando regreses.</p>
-          <p class="final-message__dedication">[Algun dia seras mia...]</p>
+          <p class="final-message__dedication">[DEDICATORIA FINAL]</p>
         </div>
       </div>
 
@@ -123,6 +126,10 @@
     </section>
   </main>
 
-  <footer class="site-footer" hidden>
+  <footer class="site-footer">
     <p>Hecho para Isa</p>
   </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
