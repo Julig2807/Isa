@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#03040a">
   <title>Para Isa</title>
   <meta name="description" content="Un pequeño detalle para Isa.">
+  <link rel="preload" as="image" href="isa-artwork.png">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="is-loading">
@@ -27,10 +28,11 @@
     <!-- SECCIÓN 1: PORTADA -->
     <section id="portada" class="section section--cover" aria-labelledby="titulo-portada">
       <div class="cover__inner">
-        <!-- Tu SVG: el archivo debe estar en la misma carpeta. Cambia el nombre en src si es distinto. -->
+        <!-- Tu mapa estelar en PNG. Archivo: isa-artwork.png (misma carpeta que index.html) -->
         <div class="isa-artwork reveal">
-          <img class="isa-artwork__img" src="El-texto-del-parrafo-1.svg" alt="Ilustración personalizada para Isa" decoding="async">
-          <p class="isa-artwork__placeholder" hidden>[AQUÍ VA TU SVG: coloca el archivo junto a index.html]</p>
+          <img class="isa-artwork__img" src="isa-artwork.png" width="1080" height="1442"
+               alt="Mapa estelar para Isa: el cielo de Medellín el 26 de octubre de 2026" decoding="async">
+          <p class="isa-artwork__placeholder" hidden>[AQUÍ VA TU IMAGEN: coloca isa-artwork.png junto a index.html]</p>
         </div>
         <h1 id="titulo-portada" class="title reveal" style="--delay:.15s">Isa</h1>
         <p class="lead reveal" style="--delay:.3s">Hay cielos que se miran con calma, y este es uno hecho para ti.</p>
@@ -94,15 +96,9 @@
       <div class="song reveal">
         <h2 id="titulo-cancion" class="song__title">Una canción para acompañar este momento</h2>
         <div class="song__player">
-          <!--
-            Reproductor oficial de Spotify (ya insertado con tu enlace).
-            Para cambiar de canción: Spotify > Compartir > Insertar > copiar código y reemplazar el iframe.
-            Si quitas el iframe, borra también el <p class="song__placeholder"> de abajo o déjalo como marcador.
-          -->
+          <!-- Reproductor oficial de Spotify. Para cambiar la canción: Spotify > Compartir > Insertar y reemplaza el iframe. -->
           <iframe data-testid="embed-iframe" title="Reproductor de Spotify" style="border-radius:12px" src="https://open.spotify.com/embed/track/1ZdYFgk6ZA2xqCJS5eADGC?utm_source=generator&amp;si=57d3371d5a0946f5" width="100%" height="152" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
-        <!-- Marcador opcional: se puede eliminar sin afectar nada -->
-        <!-- <p class="song__placeholder">[AQUÍ VA EL EMBED DE SPOTIFY]</p> -->
       </div>
     </section>
 
