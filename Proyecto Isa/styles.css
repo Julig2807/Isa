@@ -1,4 +1,4 @@
-/* ==================== RESET Y BASE ==================== */
+/* Reset y base */
 * {
   margin: 0;
   padding: 0;
@@ -10,44 +10,44 @@ html {
 }
 
 body {
+  min-height: 100vh;
   background: #05070a;
-  color: #f0f4f8;
+  color: #f2f5f9;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
-  min-height: 100vh;
 }
 
-/* Tipografía serif para títulos */
+button {
+  font: inherit;
+}
+
 h1, h2, h3 {
-  font-family: "Georgia", "Times New Roman", serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-weight: 400;
 }
 
-/* ==================== FONDO GALÁCTICO ==================== */
 #stars-canvas {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   z-index: -1;
   pointer-events: none;
+  display: block;
 }
 
-/* ==================== SECCIONES ==================== */
 .section {
   position: relative;
   min-height: 100vh;
   width: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   padding: 4rem 1.5rem;
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transform: translateY(22px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
   pointer-events: none;
   user-select: none;
 }
@@ -58,113 +58,110 @@ h1, h2, h3 {
   pointer-events: auto;
 }
 
-/* ==================== PORTADA ==================== */
-.cover {
-  justify-content: center;
+.container {
+  width: min(800px, 100%);
   text-align: center;
 }
 
 .cover-content {
   max-width: 640px;
-  animation: fadeInUp 1.2s ease both;
+  text-align: center;
+  animation: fadeInUp 1s ease both;
 }
 
-.cover h1 {
-  font-size: clamp(2.5rem, 8vw, 4rem);
-  color: #ffffff;
-  margin-bottom: 1rem;
-  letter-spacing: 0.04em;
-}
-
-.intro {
-  font-size: clamp(1rem, 4vw, 1.25rem);
-  color: #b8c4d4;
-  margin-bottom: 2rem;
-  font-weight: 300;
-}
-
-/* ==================== SVG PERSONALIZADO ==================== */
 .isa-artwork {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 2rem;
-  width: 100%;
-  max-width: 320px;
-  animation: fadeIn 1.4s ease both;
+  display: grid;
+  place-items: center;
+  width: min(320px, 70vw);
+  margin: 0 auto 2rem;
+  filter: drop-shadow(0 20px 40px rgba(174, 122, 255, 0.28));
 }
 
 .isa-artwork svg {
   display: block;
-  max-width: 100%;
+  width: 100%;
   height: auto;
 }
 
-/* ==================== BOTONES ==================== */
+h1 {
+  font-size: clamp(2.6rem, 7vw, 4.5rem);
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+}
+
+.intro,
+.section-subtitle,
+.exam-note,
+.reveal-block p {
+  color: #bec9d9;
+  font-weight: 300;
+}
+
+.intro {
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  margin-bottom: 1.8rem;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-width: 210px;
   padding: 0.9rem 1.6rem;
-  font-family: inherit;
-  font-size: 1rem;
-  border: 1px solid #ffffff;
-  background: transparent;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.04);
   color: #ffffff;
   cursor: pointer;
-  border-radius: 999px;
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   text-decoration: none;
 }
 
 .btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.09);
+  transform: translateY(-1px);
 }
 
 .btn:focus-visible {
-  outline: 2px solid #ffffff;
-  outline-offset: 4px;
+  outline: 2px solid #fff;
+  outline-offset: 3px;
 }
 
-.btn-primary {
-  font-weight: 500;
+.btn:disabled {
+  cursor: default;
+  opacity: 0.8;
 }
 
-/* ==================== SECCIÓN 2: UNIVERSO ==================== */
-.universe, .exam-wrapper, .final-wrapper, .music-section {
-  text-align: center;
-}
-
-.section h2 {
-  font-size: clamp(1.75rem, 5vw, 2.25rem);
-  margin-bottom: 0.75rem;
+h2 {
+  font-size: clamp(2rem, 5vw, 3rem);
   color: #ffffff;
+  margin-bottom: 0.75rem;
 }
 
 .section-subtitle {
-  font-size: clamp(1rem, 4vw, 1.15rem);
-  color: #a8b4c8;
-  margin-bottom: 2.5rem;
-  font-weight: 300;
+  max-width: 640px;
+  margin: 0 auto 2.25rem;
+  font-size: clamp(1rem, 2vw, 1.2rem);
 }
 
 .blocks-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
-  max-width: 800px;
-  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.4rem;
+  width: min(820px, 100%);
   margin: 0 auto;
 }
 
 .reveal-block {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(18px);
   transition: opacity 0.6s ease, transform 0.6s ease;
-  padding: 1.5rem;
+  padding: 1.5rem 1.25rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.02);
+  box-shadow: 0 12px 30px rgba(7, 9, 15, 0.35);
 }
 
 .reveal-block.visible {
@@ -173,171 +170,136 @@ h1, h2, h3 {
 }
 
 .reveal-block h3 {
-  font-size: 1.25rem;
+  font-size: clamp(1.3rem, 2vw, 1.7rem);
   margin-bottom: 0.5rem;
   color: #ffffff;
 }
 
 .reveal-block p {
-  font-size: 0.95rem;
-  color: #b8c4d4;
-  font-weight: 300;
+  font-size: 0.96rem;
 }
 
 .block-mark {
   display: inline-block;
   margin-top: 0.75rem;
-  color: #8fa8c4;
-  font-size: 1.25rem;
+  font-size: 1.6rem;
+  color: #d8c6ff;
 }
 
-/* ==================== SECCIÓN 3: EXAMEN ==================== */
 .dedication {
-  font-family: "Georgia", "Times New Roman", serif;
-  font-size: clamp(1.25rem, 4vw, 1.6rem);
+  max-width: 620px;
+  margin: 1.2rem auto 1rem;
+  color: #edf3ff;
+  font-family: Georgia, "Times New Roman", serif;
   font-style: italic;
-  color: #e2e8f0;
-  margin: 1.5rem 0;
-  max-width: 600px;
-  text-align: center;
+  font-size: clamp(1.4rem, 3vw, 2rem);
   line-height: 1.7;
 }
 
 .exam-note {
   font-size: 1rem;
-  color: #94a3b8;
-  font-weight: 300;
-}
-
-/* ==================== SECCIÓN 4: MENSAJE FINAL ==================== */
-.btn-reveal, .btn-back {
-  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 #final-message {
   margin-top: 1.5rem;
-  animation: fadeIn 1s ease both;
+  animation: fadeIn 0.9s ease both;
 }
 
 .sparkle {
   display: inline-block;
-  margin-top: 0.75rem;
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   color: #ffffff;
-  animation: sparkle 2s ease-in-out infinite;
-}
-
-.hidden {
-  display: none;
-}
-
-/* ==================== MÚSICA ==================== */
-.music-section {
-  background: #030508;
-  padding-top: 3rem;
-  padding-bottom: 4rem;
-}
-
-.music-section h3 {
-  font-size: 1.15rem;
-  color: #94a3b8;
-  margin-bottom: 1rem;
-  font-weight: 400;
-}
-
-.spotify-wrapper {
-  width: 100%;
-  max-width: 640px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.spotify-placeholder {
-  color: #64748b;
-  font-size: 0.85rem;
-  padding: 1rem;
-  text-align: center;
-  font-style: italic;
-}
-
-.spotify-wrapper iframe {
-  width: 100%;
-  height: 152px;
-  border-radius: 8px;
-  display: block;
-}
-
-/* ==================== UTILIDADES ==================== */
-.container {
-  max-width: 800px;
-  width: 100%;
+  animation: sparkle 1.8s ease-in-out infinite;
 }
 
 .hidden {
   display: none !important;
 }
 
-/* ==================== ANIMACIONES ==================== */
+.music-section {
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+  background: rgba(2, 4, 8, 0.7);
+}
+
+.music-section h3 {
+  color: #a8b5ca;
+  font-family: inherit;
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.spotify-wrapper {
+  width: min(640px, 100%);
+  margin: 0 auto;
+  padding: 1rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.spotify-wrapper iframe {
+  width: 100%;
+  height: 152px;
+  border: 0;
+  border-radius: 12px;
+  display: block;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(18px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes sparkle {
   0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.15); }
+  50% { opacity: 1; transform: scale(1.12); }
 }
 
-/* ==================== REDUCED MOTION ==================== */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   .section,
   .cover-content,
-  .isa-artwork,
   .reveal-block,
   #final-message,
-  .sparkle {
+  .sparkle,
+  .btn {
     animation: none !important;
     transition: none !important;
   }
 
-  .section {
-    opacity: 1;
-    transform: none;
-  }
-
+  .section,
   .reveal-block {
     opacity: 1;
     transform: none;
-  }
-
-  .sparkle {
-    animation: none;
+    pointer-events: auto;
   }
 }
 
-/* ==================== RESPONSIVE ==================== */
 @media (max-width: 480px) {
-  body {
-    padding: 0;
-  }
-
   .section {
     padding: 3rem 1.25rem;
   }
 
-  .blocks-grid {
-    grid-template-columns: 1fr;
-  }
-
   .btn {
     width: 100%;
-    max-width: 280px;
+    max-width: 260px;
   }
 }
