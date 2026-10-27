@@ -129,7 +129,33 @@
     </section>
   </main>
 
+ <!-- Boton para los resultados de la UdeA  -->
 
+<button id="abrirResultados">Ver resultados UdeA</button>
+
+<dialog id="modalUdea">
+  <iframe id="marcoUdea" title="Resultados de admisión UdeA"
+          style="width:90vw;height:80vh;border:0"
+          referrerpolicy="no-referrer"></iframe>
+  <p id="aviso" hidden>
+    Tu navegador no permitió mostrarla aquí.
+    <a href="https://resultados.udea.edu.co/" target="_blank" rel="noopener noreferrer">Abrir en pestaña nueva</a>
+  </p>
+  <button onclick="this.closest('dialog').close()">Cerrar</button>
+</dialog>
+
+<script>
+const url = "https://resultados.udea.edu.co/";
+const modal = document.getElementById("modalUdea");
+const marco = document.getElementById("marcoUdea");
+document.getElementById("abrirResultados").onclick = () => {
+  marco.src = url;
+  modal.showModal();
+  document.getElementById("aviso").hidden = false; // se muestra siempre como respaldo
+};
+</script>
+
+  
     <!-- Footer -->
 
   <footer class="site-footer">
