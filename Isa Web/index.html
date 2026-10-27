@@ -131,37 +131,19 @@
 
  <!-- Boton para los resultados de la UdeA  -->
 
-<button id="abrirResultados">Ver resultados UdeA</button>
-
-<dialog id="modalUdea">
-  <iframe id="marcoUdea" title="Resultados de admisión UdeA"
-          style="width:90vw;height:80vh;border:0"
-          referrerpolicy="no-referrer"></iframe>
-  <p id="aviso" hidden>
-    Tu navegador no permitió mostrarla aquí.
-    <a href="https://resultados.udea.edu.co/" target="_blank" rel="noopener noreferrer">Abrir en pestaña nueva</a>
-  </p>
-  <button onclick="this.closest('dialog').close()">Cerrar</button>
-</dialog>
-
-<script>
-const url = "https://resultados.udea.edu.co/";
-const modal = document.getElementById("modalUdea");
-const marco = document.getElementById("marcoUdea");
-document.getElementById("abrirResultados").onclick = () => {
-  marco.src = url;
-  modal.showModal();
-  document.getElementById("aviso").hidden = false; // se muestra siempre como respaldo
-};
-</script>
+  <a class="btn btn--primary reveal" style="--delay:.45s"
+   href="https://resultados.udea.edu.co/"
+   target="_blank" rel="noopener noreferrer"
+   aria-label="Ver resultados de admisión de la UdeA (se abre en una pestaña nueva)">
+  Ver resultados
+</a>
 
   
     <!-- Footer -->
 
   <footer class="site-footer">
-    <p>Hecho para Isa 
-    
-    ATT: Julián </p>
+    <p>Hecho para Isa <br> ATT: Julián </p>
+    <hr> 
   </footer>
 
   <script src="script.js"></script>
