@@ -377,5 +377,25 @@ html:not(.js) #reveal-btn { display: none; }
 .countdown__grid span { display: block; font-size: 2rem; font-variant-numeric: tabular-nums; }
 .countdown__grid small { opacity: .7; }
 
+#zona-resultados {
+  width: 100%;
+  margin-top: clamp(6rem, 22vh, 14rem);   /* separación con la sección III */
+  padding-top: clamp(4rem, 12vh, 8rem);   /* aire antes del contenido */
+  position: relative;
+}
+
+/* Línea separadora con brillo, centrada */
+#zona-resultados::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(60%, 18rem);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(to right, transparent, var(--silver), transparent);
+  opacity: .6;
+}
+
 
 
