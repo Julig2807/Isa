@@ -12,6 +12,20 @@
   var rafId = null;
   var lastFrame = 0;
 
+  /* ---------- Var de los botones ---------- */
+  
+var openBtn = document.getElementById('open-results');
+var closeBtn = document.getElementById('close-results');
+var modal = document.getElementById('results-modal');
+var frame = document.getElementById('results-frame');
+if (openBtn && modal && frame) {
+  openBtn.addEventListener('click', function () {
+    if (!frame.src) frame.src = 'https://resultados.udea.edu.co/';
+    modal.showModal();
+  });
+  closeBtn.addEventListener('click', function () { modal.close(); });
+}
+
   function resize() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     w = window.innerWidth;
@@ -173,6 +187,8 @@
     });
   }
 
+
+  
   /* ---------- SVG: marcador si el archivo no se encuentra ---------- */
   var art = document.querySelector('.isa-artwork');
   var img = art && art.querySelector('.isa-artwork__img');
