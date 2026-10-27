@@ -4,7 +4,7 @@
   document.documentElement.classList.add('js');
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- Fondo de estrellas (canvas, sin servicios externos) ---------- */
+  /* ---------- Fondo de estrellas (canvas, sin servicios externos) ---------- */ 
   var canvas = document.getElementById('starfield'); 
   var ctx = canvas.getContext('2d');
   var stars = [];
