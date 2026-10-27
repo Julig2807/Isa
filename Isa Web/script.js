@@ -199,4 +199,34 @@ if (openBtn && modal && frame) {
       ph.hidden = false;
     });
   }
+
+  /* ---------- Temporizador: desbloqueo de Resultados ---------- */
+var UNLOCK_AT = new Date('2026-11-11T00:00:00-05:00').getTime(); // hora de Colombia
+var cd = document.getElementById('countdown');
+var bloque = document.getElementById('bloque-resultados');
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function tickCountdown() {
+  var diff = UNLOCK_AT - Date.now();
+  if (diff <= 0) {
+    if (bloque) bloque.hidden = false;
+    if (cd) cd.hidden = true;
+    return true;
+  }
+  var s = Math.floor(diff / 1000);
+  document.getElementById('cd-d').textContent = pad(Math.floor(s / 86400));
+  document.getElementById('cd-h').textContent = pad(Math.floor((s % 86400) / 3600));
+  document.getElementById('cd-m').textContent = pad(Math.floor((s % 3600) / 60));
+  document.getElementById('cd-s').textContent = pad(s % 60);
+  return false;
+}
+
+if (cd && bloque) {
+  if (!tickCountdown()) {
+    var cdTimer = setInterval(function () {
+      if (tickCountdown()) clearInterval(cdTimer);
+    }, 1000);
+  }
+}
 })();
