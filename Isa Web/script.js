@@ -229,4 +229,24 @@ if (cd && bloque) {
     }, 1000);
   }
 }
+
+  /* ---------- Menú hamburguesa (solo móvil) ---------- */
+var navToggle = document.getElementById('nav-toggle');
+var navMenu = document.getElementById('nav-menu');
+
+if (navToggle && navMenu) {
+  navToggle.addEventListener('click', function () {
+    var open = navMenu.classList.toggle('is-open');
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    navToggle.setAttribute('aria-label', open ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
+  });
+
+  // Cerrar el menú al tocar un enlace
+  navMenu.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      navMenu.classList.remove('is-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
 })();
