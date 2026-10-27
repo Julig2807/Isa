@@ -201,7 +201,7 @@ if (openBtn && modal && frame) {
   }
 
   /* ---------- Temporizador: desbloqueo de Resultados ---------- */
-var UNLOCK_AT = new Date('2026-11-11T00:00:00-05:00').getTime(); // hora de Colombia
+var UNLOCK_AT = new Date('2026-10-27T15:43:00-05:00').getTime(); // hora de Colombia
 var cd = document.getElementById('countdown');
 var bloque = document.getElementById('bloque-resultados');
 
