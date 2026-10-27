@@ -397,5 +397,70 @@ html:not(.js) #reveal-btn { display: none; }
   opacity: .6;
 }
 
+/* Botón hamburguesa: oculto en PC */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.nav-toggle__bar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform .3s var(--ease), opacity .3s var(--ease);
+}
+
+/* Animación a X cuando está abierto */
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Solo en móvil: ocultar menú y mostrar botón */
+@media (max-width: 39.99rem) {
+  .nav-toggle {
+    display: flex;
+    position: fixed;
+    top: .8rem;
+    right: .8rem;
+    z-index: 6;
+  }
+
+  .site-nav__menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 4.5rem 1.5rem 2rem;
+    background: rgba(2, 3, 10, .95);
+    border-bottom: 1px solid var(--line);
+    transform: translateY(-100%);
+    transition: transform .4s var(--ease);
+  }
+
+  .site-nav__menu.is-open {
+    transform: translateY(0);
+  }
+}
 
 
