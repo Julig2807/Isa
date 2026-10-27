@@ -131,13 +131,17 @@
 
  <!-- Boton para los resultados de la UdeA  -->
 
-  <a class="btn btn--primary reveal" style="--delay:.45s"
-   href="https://resultados.udea.edu.co/"
-   target="_blank" rel="noopener noreferrer"
-   aria-label="Ver resultados de admisión de la UdeA (se abre en una pestaña nueva)">
-  Ver resultados
-</a>
+<button class="btn" type="button" id="open-results">Ver resultados</button>
 
+<dialog class="results-modal" id="results-modal" aria-label="Resultados de admisión UdeA">
+  <div class="results-modal__bar">
+    <a class="btn btn--ghost" href="https://resultados.udea.edu.co/"
+       target="_blank" rel="noopener noreferrer">Abrir en pestaña nueva</a>
+    <button class="btn btn--ghost" type="button" id="close-results">Cerrar</button>
+  </div>
+  <iframe id="results-frame" title="Resultados de admisión UdeA"
+          referrerpolicy="no-referrer"></iframe>
+</dialog>
   
     <!-- Footer -->
 
