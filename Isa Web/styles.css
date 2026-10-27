@@ -186,6 +186,26 @@ a:focus-visible, button:focus-visible {
 .btn--ghost { border-color: var(--line); color: var(--muted); margin-top: 3.5rem; }
 .btn.is-hidden { opacity: 0; pointer-events: none; transform: translateY(6px); position: absolute; visibility: hidden; }
 
+.results-modal {
+  width: min(92vw, 70rem);
+  height: 85vh;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: var(--slate);
+  color: var(--text);
+}
+.results-modal::backdrop { background: rgba(2, 3, 10, .8); }
+.results-modal[open] { display: flex; flex-direction: column; }
+.results-modal__bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .75rem 1rem;
+  border-bottom: 1px solid var(--line);
+}
+.results-modal__bar .btn--ghost { margin-top: 0; padding: .6rem 1.2rem; font-size: .7rem; }
+.results-modal iframe { flex: 1; width: 100%; border: 0; background: #fff; }
+
 a.btn {
   display: inline-flex;
   align-items: center;
@@ -341,3 +361,5 @@ html:not(.js) #reveal-btn { display: none; }
   }
   .starfield { transition: none; }
 }
+
+
