@@ -362,4 +362,20 @@ html:not(.js) #reveal-btn { display: none; }
   .starfield { transition: none; }
 }
 
+[hidden] { display: none !important; }
+
+.countdown { text-align: center; padding: 3rem 1rem; }
+.countdown__grid {
+  display: flex; justify-content: center; gap: 1rem;
+  flex-wrap: wrap; margin-top: 1.5rem;
+}
+.countdown__grid div {
+  min-width: 70px; padding: .8rem 1rem; border-radius: 12px;
+  border: 1px solid rgba(196, 201, 214, .3);
+  background: rgba(255, 255, 255, .04);
+}
+.countdown__grid span { display: block; font-size: 2rem; font-variant-numeric: tabular-nums; }
+.countdown__grid small { opacity: .7; }
+
+
 
