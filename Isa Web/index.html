@@ -21,6 +21,7 @@
       <li><a href="#universo">Tu universo</a></li>
       <li><a href="#capitulo">Tu capítulo</a></li>
       <li><a href="#final">Mensaje</a></li>
+      <li><a href="#resultados">Resultados</a></li>
     </ul>
   </nav>
 
@@ -131,21 +132,33 @@
     </section>
   </main>
 
- <!-- Boton para los resultados de la UdeA  -->
-<div style="display: flex; justify-content: center;">
+<!-- SECCIÓN 4: RESULTADOS -->
+<section id="resultados" class="section" aria-labelledby="titulo-resultados">
+  <div class="chapter">
+    <p class="eyebrow reveal">III</p>
+    <h2 id="titulo-resultados" class="title title--section reveal">Pase lo que pase</h2>
 
-<button class="btn" type="button" id="open-results">Ver resultados</button>
+    <p class="prose reveal">Hoy un número o una lista van a decir algo sobre un examen. No van a decir nada sobre ti. Lo que eres se ve en cómo estudiaste, en cómo insististe y en cómo te levantas cuando algo no sale como querías.</p>
+    <p class="prose reveal">Si el resultado es que sí, celebra con todo, porque te lo ganaste. Si es que no, llora lo que necesites, pero no lo tomes como una sentencia. Un camino que no sale a la primera sigue siendo tu camino, y los sueños grandes casi nunca saldran en un solo intento.</p>
+    <p class="prose reveal">Lo único que te pido es que no sueltes lo que quieres ser. Cambian las fechas, las convocatorias y los planes, pero tus ganas y tu esfuerzo siguen siendo tuyos.</p>
 
-<dialog class="results-modal" id="results-modal" aria-label="Resultados de admisión UdeA">
-  <div class="results-modal__bar">
-    <a class="btn btn--ghost" href="https://resultados.udea.edu.co/"
-       target="_blank" rel="noopener noreferrer">Abrir en pestaña nueva</a>
-    <button class="btn btn--ghost" type="button" id="close-results">Cerrar</button>
+    <blockquote class="dedication reveal">
+      <p>Estés donde estés mañana, ya llegaste lejos.</p>
+    </blockquote>
+
+    >[BOTON, No mover ni por el HPTA]
+
+    <button class="btn reveal" type="button" id="open-results">Ver mis resultados</button>
+
+    <dialog class="results-modal" id="results-modal" aria-label="Resultados de admisión UdeA">
+      <div class="results-modal__bar">
+        <a class="btn btn--ghost" href="https://resultados.udea.edu.co/" target="_blank" rel="noopener noreferrer">Abrir en pestaña nueva</a>
+        <button class="btn btn--ghost" type="button" id="close-results">Cerrar</button>
+      </div>
+      <iframe id="results-frame" title="Resultados de admisión UdeA" referrerpolicy="no-referrer"></iframe>
+    </dialog>
   </div>
-  <iframe id="results-frame" title="Resultados de admisión UdeA"
-          referrerpolicy="no-referrer"></iframe>
-</dialog>
-  </div>
+</section>
    
   <!-- Footer -->
 
