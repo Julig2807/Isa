@@ -186,6 +186,13 @@ a:focus-visible, button:focus-visible {
 .btn--ghost { border-color: var(--line); color: var(--muted); margin-top: 3.5rem; }
 .btn.is-hidden { opacity: 0; pointer-events: none; transform: translateY(6px); position: absolute; visibility: hidden; }
 
+a.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
 /* Tarjetas */
 .cards {
   display: grid;
