@@ -167,7 +167,7 @@ if (openBtn && modal && frame) {
         }
       });
     }, { threshold: 0.5 });
-    ['portada', 'universo', 'capitulo', 'final'].forEach(function (id) {
+    ['portada', 'universo', 'capitulo', 'final', 'resultados'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) sectionObserver.observe(el);
     });
