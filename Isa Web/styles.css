@@ -655,3 +655,14 @@ html:not(.js) #reveal-btn { display: none; }
   text-transform: uppercase;
   color: var(--accent);
 }
+.volver-inicio {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 3.5rem;
+}
+
+.btn--centrado {
+  margin-top: 0;
+  align-self: center;
+}
