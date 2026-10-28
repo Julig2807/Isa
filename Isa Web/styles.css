@@ -621,3 +621,37 @@ html:not(.js) #reveal-btn { display: none; }
     display: none;
   }
 }
+.recuerdo__enlace {
+  display: block;
+  width: 100%;
+  max-width: 34rem;
+  text-decoration: none;
+  border-radius: 14px;
+  outline-offset: 6px;
+}
+
+.recuerdo__enlace:focus-visible {
+  outline: 2px solid var(--accent);
+}
+
+.recuerdo__enlace:hover .recuerdo__marco {
+  border-color: rgba(196, 201, 214, .55);
+  box-shadow:
+    0 22px 60px rgba(0, 0, 0, .45),
+    0 0 35px rgba(159, 180, 232, .18);
+}
+
+.recuerdo__enlace:hover .recuerdo__img {
+  transform: scale(1.03);
+}
+
+.recuerdo__accion {
+  display: block;
+  margin-top: .6rem;
+  font-family: var(--sans);
+  font-style: normal;
+  font-size: .78rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
