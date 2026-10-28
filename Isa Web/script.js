@@ -120,7 +120,7 @@ if (openBtn && modal && frame) {
   }
 
   /* ---------- Aparición al hacer scroll ---------- */
-  var revealEls = document.querySelectorAll('.reveal');
+var revealEls = document.querySelectorAll('.reveal, .recuerdo');
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
