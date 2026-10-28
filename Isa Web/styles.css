@@ -463,4 +463,161 @@ html:not(.js) #reveal-btn { display: none; }
   }
 }
 
+/* Galería de recuerdos */
 
+.galeria-recuerdos {
+  width: 100%;
+  max-width: 72rem;
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.recuerdo {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.recuerdo__marco {
+  width: 100%;
+  max-width: 34rem;
+  padding: .8rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background:
+    linear-gradient(160deg, rgba(20, 24, 36, .65), rgba(5, 7, 15, .45));
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, .35),
+    inset 0 0 30px rgba(159, 180, 232, .06);
+  overflow: hidden;
+  position: relative;
+}
+
+.recuerdo__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  transform: scale(1.02);
+  opacity: 0;
+  filter: brightness(.75) saturate(.85);
+  transition:
+    transform 1.4s var(--ease),
+    opacity 1.4s var(--ease),
+    filter 1.4s var(--ease);
+}
+
+.recuerdo.is-visible .recuerdo__img {
+  opacity: 1;
+  transform: scale(1);
+  filter: brightness(1) saturate(1);
+}
+
+.recuerdo--mapa .recuerdo__img {
+  max-height: min(52svh, 30rem);
+}
+
+.recuerdo--certificado .recuerdo__img {
+  max-height: min(52svh, 30rem);
+}
+
+.recuerdo__texto {
+  margin: 0;
+  max-width: 30rem;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.05rem, 3.4vw, 1.35rem);
+  line-height: 1.5;
+  color: var(--silver);
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 1.2s var(--ease) .35s,
+    transform 1.2s var(--ease) .35s;
+}
+
+.recuerdo.is-visible .recuerdo__texto {
+  opacity: 1;
+  transform: none;
+}
+
+/* Brillo suave que recorre el marco */
+.recuerdo__marco::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(
+    115deg,
+    transparent 42%,
+    rgba(196, 201, 214, .16) 50%,
+    transparent 58%
+  );
+  transform: translateX(-70%);
+  pointer-events: none;
+}
+
+.recuerdo.is-visible .recuerdo__marco::after {
+  animation: brilloRecuerdo 3.4s var(--ease) .5s forwards;
+}
+
+@keyframes brilloRecuerdo {
+  to {
+    transform: translateX(70%);
+  }
+}
+
+/* Pequeño movimiento flotante, como si estuviera en el cielo */
+.recuerdo__marco {
+  animation: flotarRecuerdo 7s ease-in-out infinite alternate;
+}
+
+.recuerdo--certificado .recuerdo__marco {
+  animation-delay: 1.2s;
+}
+
+@keyframes flotarRecuerdo {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-8px);
+  }
+}
+
+/* En pantallas grandes: una al lado de la otra */
+@media (min-width: 64rem) {
+  .galeria-recuerdos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem;
+  }
+
+  .recuerdo--mapa .recuerdo__img,
+  .recuerdo--certificado .recuerdo__img {
+    max-height: 38svh;
+  }
+}
+
+/* Accesibilidad: sin movimiento si el usuario lo prefiere */
+@media (prefers-reduced-motion: reduce) {
+  .recuerdo__img,
+  .recuerdo__texto {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .recuerdo__marco {
+    animation: none;
+  }
+
+  .recuerdo__marco::after {
+    animation: none;
+    display: none;
+  }
+}
