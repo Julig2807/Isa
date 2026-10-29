@@ -141,13 +141,15 @@
 </svg>
 
 <!-- ============ CANDADO DE CORAZÓN ============ -->
-<dialog class="lock-modal" id="lock-modal" aria-labelledby="lock-title">
-  <div class="lock-wrap">
-    <button class="lock-close" id="lock-close" type="button" aria-label="Cerrar">&times;</button>
-
+<dialog class="results-modal lock-modal" id="lock-modal" aria-labelledby="lock-title">
+  <div class="results-modal__bar">
     <p class="lock-title" id="lock-title">El día de nuestra primera conversación (WhatsApp)</p>
+    <button class="btn btn--ghost" type="button" id="lock-close">Cerrar</button>
+  </div>
 
+  <div class="lock-body">
     <div class="lock-stage" id="lock-stage">
+
       <!-- Arco del candado -->
       <svg class="lock-shackle" viewBox="0 -60 200 250" aria-hidden="true">
         <defs>
@@ -157,8 +159,10 @@
             <stop offset="1" stop-color="#8e96ad"/>
           </linearGradient>
         </defs>
-        <path class="sh sh--main" d="M72 30 V-14 a28 28 0 0 1 56 0 V30"/>
-        <path class="sh sh--shine" d="M78 26 V-14 a22 22 0 0 1 22 -22"/>
+        <path class="sh sh--main" fill="none" stroke="url(#shackleGrad)" stroke-width="9" stroke-linecap="round"
+              d="M72 30 V-14 a28 28 0 0 1 56 0 V30"/>
+        <path class="sh sh--shine" fill="none" stroke="#ffffff" stroke-opacity=".6" stroke-width="2" stroke-linecap="round"
+              d="M78 26 V-14 a22 22 0 0 1 22 -22"/>
       </svg>
 
       <!-- Cuerpo de cristal -->
