@@ -133,70 +133,184 @@
       </div>
     </section>
 
-    <!-- Recorte con forma de corazón (debe estar FUERA del dialog) -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <clipPath id="heartClip" clipPathUnits="objectBoundingBox">
-    <path transform="scale(0.005 0.0058824)" d="M100 164 C40 118 6 88 6 56 C6 28 28 8 54 8 C74 8 91 19 100 36 C109 19 126 8 146 8 C172 8 194 28 194 56 C194 88 160 118 100 164Z"/>
-  </clipPath>
-</svg>
+    <!-- CANDADO DE CORAZÓN -->
+<dialog
+  class="results-modal lock-modal"
+  id="lock-modal"
+  aria-labelledby="lock-title"
+>
+  <div class="results-modal__bar lock-header">
+    <p class="lock-title" id="lock-title">
+      El día de nuestra primera conversación
+      <span>(WhatsApp)</span>
+    </p>
 
-<!-- ============ CANDADO DE CORAZÓN ============ -->
-<dialog class="results-modal lock-modal" id="lock-modal" aria-labelledby="lock-title">
-  <div class="results-modal__bar">
-    <p class="lock-title" id="lock-title">El día de nuestra primera conversación (WhatsApp)</p>
-    <button class="btn btn--ghost" type="button" id="lock-close">Cerrar</button>
+    <button
+      class="btn btn--ghost"
+      type="button"
+      id="lock-close"
+    >
+      Cerrar
+    </button>
   </div>
 
-  <div class="lock-body">
+  <form class="lock-body" id="heart-lock-form" novalidate>
     <div class="lock-stage" id="lock-stage">
 
-      <!-- Arco del candado -->
-      <svg class="lock-shackle" viewBox="0 -60 200 250" aria-hidden="true">
+      <!-- Grillete: sus extremos quedan detrás del corazón -->
+      <svg
+        class="lock-shackle"
+        viewBox="0 -60 200 250"
+        aria-hidden="true"
+      >
         <defs>
-          <linearGradient id="shackleGrad" x1="0" y1="0" x2="1" y2="1">
+          <linearGradient
+            id="shackleGrad"
+            x1="0" y1="0"
+            x2="1" y2="1"
+          >
             <stop offset="0" stop-color="#ffffff"/>
             <stop offset=".5" stop-color="#c4c9d6"/>
             <stop offset="1" stop-color="#8e96ad"/>
           </linearGradient>
         </defs>
-        <path class="sh sh--main" fill="none" stroke="url(#shackleGrad)" stroke-width="9" stroke-linecap="round"
-              d="M72 30 V-14 a28 28 0 0 1 56 0 V30"/>
-        <path class="sh sh--shine" fill="none" stroke="#ffffff" stroke-opacity=".6" stroke-width="2" stroke-linecap="round"
-              d="M78 26 V-14 a22 22 0 0 1 22 -22"/>
+
+        <g class="lock-shackle-motion">
+          <path
+            fill="none"
+            stroke="url(#shackleGrad)"
+            stroke-width="9"
+            stroke-linecap="round"
+            d="M72 28 V-8 a28 28 0 0 1 56 0 V28"
+          />
+          <path
+            fill="none"
+            stroke="#ffffff"
+            stroke-opacity=".55"
+            stroke-width="2"
+            stroke-linecap="round"
+            d="M76 23 V-8 a24 24 0 0 1 24 -24"
+          />
+        </g>
       </svg>
 
-      <!-- Cuerpo de cristal -->
       <div class="heart-glass"></div>
 
-      <!-- Borde y reflejos -->
-      <svg class="heart-outline" viewBox="0 0 200 170" aria-hidden="true">
+      <svg
+        class="heart-outline"
+        viewBox="0 0 200 170"
+        aria-hidden="true"
+      >
         <defs>
-          <linearGradient id="heartRim" x1="0" y1="0" x2="1" y2="1">
+          <linearGradient
+            id="heartRim"
+            x1="0" y1="0"
+            x2="1" y2="1"
+          >
             <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
             <stop offset=".45" stop-color="#fff" stop-opacity=".15"/>
             <stop offset=".6" stop-color="#9fb4e8" stop-opacity=".2"/>
             <stop offset="1" stop-color="#fff" stop-opacity=".7"/>
           </linearGradient>
-          <filter id="soft"><feGaussianBlur stdDeviation="1.4"/></filter>
         </defs>
-        <path d="M100 164 C40 118 6 88 6 56 C6 28 28 8 54 8 C74 8 91 19 100 36 C109 19 126 8 146 8 C172 8 194 28 194 56 C194 88 160 118 100 164Z"
-              fill="none" stroke="url(#heartRim)" stroke-width="1.8"/>
-        <path d="M20 50 C20 32 34 20 52 19" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="3.5" stroke-linecap="round" filter="url(#soft)"/>
-        <path d="M160 100 C148 116 132 130 112 148" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2.5" stroke-linecap="round" filter="url(#soft)"/>
+
+        <path
+          d="M100 164 C40 118 6 88 6 56 C6 28 28 8 54 8 C74 8 91 19 100 36 C109 19 126 8 146 8 C172 8 194 28 194 56 C194 88 160 118 100 164Z"
+          fill="none"
+          stroke="url(#heartRim)"
+          stroke-width="1.8"
+        />
+
+        <path
+          d="M20 50 C20 32 34 20 52 19"
+          fill="none"
+          stroke="#fff"
+          stroke-opacity=".7"
+          stroke-width="3"
+          stroke-linecap="round"
+        />
+
+        <path
+          d="M160 100 C148 116 132 130 112 148"
+          fill="none"
+          stroke="#fff"
+          stroke-opacity=".3"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
       </svg>
 
-      <!-- Ruedas (las crea el JS) -->
-      <div class="wheels" id="wheels" role="group" aria-label="Clave de 4 dígitos"></div>
+      <!-- Casillas de la clave dentro del corazón -->
+      <div
+        class="heart-code"
+        id="heart-code"
+        role="group"
+        aria-label="Clave de cuatro dígitos"
+      >
+        <input
+          type="text"
+          inputmode="numeric"
+          maxlength="1"
+          pattern="[0-9]"
+          aria-label="Primer dígito"
+          autocomplete="off"
+        >
+        <input
+          type="text"
+          inputmode="numeric"
+          maxlength="1"
+          pattern="[0-9]"
+          aria-label="Segundo dígito"
+          autocomplete="off"
+        >
+        <input
+          type="text"
+          inputmode="numeric"
+          maxlength="1"
+          pattern="[0-9]"
+          aria-label="Tercer dígito"
+          autocomplete="off"
+        >
+        <input
+          type="text"
+          inputmode="numeric"
+          maxlength="1"
+          pattern="[0-9]"
+          aria-label="Cuarto dígito"
+          autocomplete="off"
+        >
+      </div>
     </div>
 
-    <p class="lock-status" id="lock-status" role="status" aria-live="polite">Gira los números hasta encontrar la clave</p>
+    <p
+      class="lock-status"
+      id="lock-status"
+      role="status"
+      aria-live="polite"
+    >
+      Escribe la clave para descubrir el secreto.
+    </p>
 
-    <!-- ==========================================================
-         AQUÍ VA TU PDF: súbelo junto al index.html con el nombre
-         secreto.pdf (o cambia PDF_URL en script.js)
-         ========================================================== -->
-    <a class="btn btn--glass" id="lock-download" href="secreto.pdf" download="secreto.pdf" hidden>Descargar PDF</a>
-  </div>
+    <button
+      class="btn btn--glass"
+      type="submit"
+      id="heart-download-button"
+    >
+      Descargar PDF
+    </button>
+
+    <!--
+      PDF: coloca secreto.pdf junto a index.html.
+      Si usas otra ruta, cambia PDF_URL en el JavaScript.
+      Este enlace permanece oculto; el botón inicia la descarga.
+    -->
+    <a
+      id="lock-download"
+      href="secreto.pdf"
+      download="secreto.pdf"
+      hidden
+    ></a>
+  </form>
 </dialog>
 
     <!-- SECCIÓN 5: GALERÍA DE RECUERDOS -->
