@@ -5,7 +5,7 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------- Fondo de estrellas (canvas, sin servicios externos) ---------- */ 
-  var canvas = document.getElementById('starfield'); 
+  var canvas = document.getElementById('starfield');     
   var ctx = canvas.getContext('2d');
   var stars = [];
   var w = 0, h = 0, dpr = 1;
@@ -248,5 +248,35 @@ if (navToggle && navMenu) {
       navToggle.setAttribute('aria-expanded', 'false');
     });
   });
+}
+
+  async function cargarCancionDelDia() {
+  const respuesta = await fetch("/api/cancion-del-dia");
+  const datos = await respuesta.json();
+
+  document.querySelector("#titulo").textContent = datos.cancion.nombre;
+  document.querySelector("#artista").textContent = datos.cancion.artista;
+  document.querySelector("#portada").src = datos.cancion.imagen;
+
+  return datos.cancion.uri;
+}
+
+  function actualizarContador() {
+  const ahora = new Date();
+
+  const proximaMedianocheColombia = new Date(
+    new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/Bogota",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false
+    }).format(ahora)
+  );
+
+  // Mostrar horas, minutos y segundos restantes
 }
 })();
