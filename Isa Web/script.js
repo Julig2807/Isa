@@ -10,7 +10,7 @@
   var stars = [];
   var w = 0, h = 0, dpr = 1;
   var rafId = null;
-  var lastFrame = 0;
+  var lastFrame = 0;   
 
   /* ---------- Var de los botones ---------- */
 
