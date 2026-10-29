@@ -10,10 +10,9 @@
   var stars = [];
   var w = 0, h = 0, dpr = 1;
   var rafId = null;
-  var lastFrame = 0;   
+  var lastFrame = 0;
 
   /* ---------- Var de los botones ---------- */
-
   var openBtn = document.getElementById('open-results');
   var closeBtn = document.getElementById('close-results');
   var modal = document.getElementById('results-modal');
@@ -75,7 +74,7 @@
   }
 
   function loop(t) {
-    if (t - lastFrame > 66) { // ~15 fps, suficiente para destellos suaves
+    if (t - lastFrame > 66) {
       draw(t);
       lastFrame = t;
     }
@@ -86,8 +85,12 @@
     if (reduceMotion || rafId || !canvas) return;
     rafId = requestAnimationFrame(loop);
   }
+
   function stop() {
-    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
   }
 
   var resizeTimer;
@@ -95,14 +98,17 @@
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(resize, 200);
   });
+
   document.addEventListener('visibilitychange', function () {
     if (document.hidden) stop(); else start();
   });
 
   resize();
   requestAnimationFrame(function () {
-    document.body.classList.remove('is-loading');
-    document.body.classList.add('is-ready');
+    if (document.body) {
+      document.body.classList.remove('is-loading');
+      document.body.classList.add('is-ready');
+    }
   });
   start();
 
@@ -110,14 +116,22 @@
   function flare() {
     if (reduceMotion || document.hidden || !stars.length) return;
     var s = stars[Math.floor(Math.random() * stars.length)];
-    var origR = s.r, origBase = s.base;
+    var origR = s.r;
+    var origBase = s.base;
     s.r = origR * 2.2;
     s.base = Math.min(1, origBase + 0.4);
-    setTimeout(function () { s.r = origR; s.base = origBase; }, 900);
+    setTimeout(function () {
+      s.r = origR;
+      s.base = origBase;
+    }, 900);
   }
+
   if (!reduceMotion) {
     (function schedule() {
-      setTimeout(function () { flare(); schedule(); }, 3500 + Math.random() * 5000);
+      setTimeout(function () {
+        flare();
+        schedule();
+      }, 3500 + Math.random() * 5000);
     })();
   }
 
@@ -132,9 +146,14 @@
         }
       });
     }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
-    revealEls.forEach(function (el) { io.observe(el); });
+
+    revealEls.forEach(function (el) {
+      io.observe(el);
+    });
   } else {
-    revealEls.forEach(function (el) { el.classList.add('is-visible'); });
+    revealEls.forEach(function (el) {
+      el.classList.add('is-visible');
+    });
   }
 
   /* ---------- Navegación suave + seguimiento del scroll ---------- */
@@ -148,8 +167,11 @@
   }
 
   document.querySelectorAll('[data-scroll-to]').forEach(function (btn) {
-    btn.addEventListener('click', function () { goTo(btn.getAttribute('data-scroll-to')); });
+    btn.addEventListener('click', function () {
+      goTo(btn.getAttribute('data-scroll-to'));
+    });
   });
+
   document.querySelectorAll('.site-nav a').forEach(function (link) {
     link.addEventListener('click', function (e) {
       e.preventDefault();
@@ -165,19 +187,27 @@
     spyTicking = false;
     var line = window.innerHeight * 0.35;
     var current = spyIds[0];
+
     spyIds.forEach(function (id) {
       var el = document.getElementById(id);
       if (el && el.getBoundingClientRect().top <= line) current = id;
     });
+
     var atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
     if (atBottom) current = spyIds[spyIds.length - 1];
+
     navLinks.forEach(function (l) {
       l.classList.toggle('is-active', l.getAttribute('href') === '#' + current);
     });
   }
+
   function requestSpy() {
-    if (!spyTicking) { spyTicking = true; requestAnimationFrame(updateActiveNav); }
+    if (!spyTicking) {
+      spyTicking = true;
+      requestAnimationFrame(updateActiveNav);
+    }
   }
+
   window.addEventListener('scroll', requestSpy, { passive: true });
   window.addEventListener('resize', requestSpy);
   updateActiveNav();
@@ -208,11 +238,13 @@
   }
 
   /* ---------- Temporizador: desbloqueo de Resultados ---------- */
-  var UNLOCK_AT = new Date('2026-11-11T00:00:00-05:00').getTime(); // hora de Colombia
+  var UNLOCK_AT = new Date('2026-11-11T00:00:00-05:00').getTime();
   var cd = document.getElementById('countdown');
   var bloque = document.getElementById('bloque-resultados');
 
-  function pad(n) { return String(n).padStart(2, '0'); }
+  function pad(n) {
+    return String(n).padStart(2, '0');
+  }
 
   function tickCountdown() {
     var diff = UNLOCK_AT - Date.now();
@@ -221,11 +253,13 @@
       if (cd) cd.hidden = true;
       return true;
     }
+
     var s = Math.floor(diff / 1000);
     var dd = document.getElementById('cd-d');
     var hh = document.getElementById('cd-h');
     var mm = document.getElementById('cd-m');
     var ss = document.getElementById('cd-s');
+
     if (dd) dd.textContent = pad(Math.floor(s / 86400));
     if (hh) hh.textContent = pad(Math.floor((s % 86400) / 3600));
     if (mm) mm.textContent = pad(Math.floor((s % 3600) / 60));
@@ -241,220 +275,220 @@
     }
   }
 
-/* ---------- Candado de corazón + PDF ---------- */
-(function () {
-  // Coloca este archivo junto a index.html,
-  // o cambia esta ruta por la ubicación de tu PDF.
+  /* ---------- Menú hamburguesa (solo móvil) ---------- */
+  var navToggle = document.getElementById('nav-toggle');
+  var navMenu = document.getElementById('nav-menu');
+
+  if (navToggle && navMenu) {
+    navToggle.addEventListener('click', function () {
+      var open = navMenu.classList.toggle('is-open');
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      navToggle.setAttribute('aria-label', open ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
+    });
+
+    navMenu.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        navMenu.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  /* ---------- Candado de corazón + PDF ---------- */
   var PDF_URL = 'secreto.pdf';
   var LOCK_CODE = '2609';
 
-  var modal = document.getElementById('lock-modal');
-  var openButton = document.getElementById('open-lock');
-  var closeButton = document.getElementById('lock-close');
-  var stage = document.getElementById('lock-stage');
-  var form = document.getElementById('heart-lock-form');
-  var status = document.getElementById('lock-status');
-  var downloadButton = document.getElementById('heart-download-button');
-  var downloadLink = document.getElementById('lock-download');
-
-  var inputs = Array.prototype.slice.call(
-    document.querySelectorAll('#heart-code input')
-  );
+  var heartLockModal = document.getElementById('lock-modal');
+  var heartOpenButton = document.getElementById('open-lock');
+  var heartCloseButton = document.getElementById('lock-close');
+  var heartStage = document.getElementById('lock-stage');
+  var heartForm = document.getElementById('heart-lock-form');
+  var heartStatus = document.getElementById('lock-status');
+  var heartDownloadButton = document.getElementById('heart-download-button');
+  var heartDownloadLink = document.getElementById('lock-download');
+  var heartInputs = Array.prototype.slice.call(document.querySelectorAll('#heart-code input'));
 
   if (
-    !modal || !openButton || !closeButton ||
-    !stage || !form || !status ||
-    !downloadButton || !downloadLink || inputs.length !== 4
+    heartLockModal &&
+    heartOpenButton &&
+    heartCloseButton &&
+    heartStage &&
+    heartForm &&
+    heartStatus &&
+    heartDownloadButton &&
+    heartDownloadLink &&
+    heartInputs.length === 4
   ) {
-    return;
-  }
+    var unlocked = false;
+    var busy = false;
+    var downloadTimer = null;
 
-  var unlocked = false;
-  var busy = false;
-  var downloadTimer = null;
+    heartDownloadLink.href = PDF_URL;
 
-  downloadLink.href = PDF_URL;
+    function showStatus(message, state) {
+      heartStatus.textContent = message;
+      heartStatus.className = 'lock-status' + (state ? ' ' + state : '');
+    }
 
-  function showStatus(message, state) {
-    status.textContent = message;
-    status.className = 'lock-status' + (state ? ' ' + state : '');
-  }
+    function clearErrors() {
+      heartInputs.forEach(function (input) {
+        input.removeAttribute('aria-invalid');
+      });
+    }
 
-  function clearErrors() {
-    inputs.forEach(function (input) {
-      input.removeAttribute('aria-invalid');
-    });
-  }
+    function downloadPDF() {
+      heartDownloadLink.click();
+    }
 
-  function downloadPDF() {
-    downloadLink.click();
-  }
+    heartInputs.forEach(function (input, index) {
+      input.addEventListener('focus', function () {
+        input.select();
+      });
 
-  inputs.forEach(function (input, index) {
-    input.addEventListener('focus', function () {
-      input.select();
-    });
+      input.addEventListener('input', function () {
+        input.value = input.value.replace(/\D/g, '').slice(-1);
+        clearErrors();
+        showStatus('Escribe la clave para descubrir el secreto.');
 
-    input.addEventListener('input', function () {
-      input.value = input.value.replace(/\D/g, '').slice(-1);
-      clearErrors();
+        if (input.value && index < heartInputs.length - 1) {
+          heartInputs[index + 1].focus();
+        }
+      });
 
-      showStatus('Escribe la clave para descubrir el secreto.');
+      input.addEventListener('keydown', function (event) {
+        if (event.key === 'Backspace' && !input.value && index > 0) {
+          event.preventDefault();
+          heartInputs[index - 1].focus();
+        }
 
-      if (input.value && index < inputs.length - 1) {
-        inputs[index + 1].focus();
-      }
-    });
+        if (event.key === 'ArrowLeft' && index > 0) {
+          event.preventDefault();
+          heartInputs[index - 1].focus();
+        }
 
-    input.addEventListener('keydown', function (event) {
-      if (event.key === 'Backspace' && !input.value && index > 0) {
+        if (event.key === 'ArrowRight' && index < heartInputs.length - 1) {
+          event.preventDefault();
+          heartInputs[index + 1].focus();
+        }
+      });
+
+      input.addEventListener('paste', function (event) {
+        var clipboard = event.clipboardData;
+        if (!clipboard) return;
+
+        var value = clipboard.getData('text')
+          .replace(/\D/g, '')
+          .slice(0, 4);
+
+        if (!value) return;
+
         event.preventDefault();
-        inputs[index - 1].focus();
-      }
+        clearErrors();
 
-      if (event.key === 'ArrowLeft' && index > 0) {
-        event.preventDefault();
-        inputs[index - 1].focus();
-      }
+        heartInputs.forEach(function (field, position) {
+          field.value = value[position] || '';
+        });
 
-      if (event.key === 'ArrowRight' && index < inputs.length - 1) {
-        event.preventDefault();
-        inputs[index + 1].focus();
-      }
+        heartInputs[Math.min(value.length, 3)].focus();
+        showStatus('Pulsa Descargar PDF para abrir el candado.');
+      });
     });
 
-    input.addEventListener('paste', function (event) {
-      var clipboard = event.clipboardData;
-      if (!clipboard) return;
-
-      var value = clipboard.getData('text')
-        .replace(/\D/g, '')
-        .slice(0, 4);
-
-      if (!value) return;
-
+    heartForm.addEventListener('submit', function (event) {
       event.preventDefault();
+
+      if (busy) return;
+
+      if (unlocked) {
+        downloadPDF();
+        return;
+      }
+
+      var code = heartInputs.map(function (input) {
+        return input.value;
+      }).join('');
+
+      if (code.length !== 4) {
+        showStatus('Completa los cuatro números.', 'is-error');
+
+        var empty = heartInputs.find(function (input) {
+          return !input.value;
+        });
+
+        if (empty) empty.focus();
+        return;
+      }
+
+      if (code !== LOCK_CODE) {
+        heartInputs.forEach(function (input) {
+          input.setAttribute('aria-invalid', 'true');
+        });
+
+        showStatus(
+          'Esa no es la clave. Piensa en nuestra primera conversación.',
+          'is-error'
+        );
+
+        heartInputs[0].focus();
+        return;
+      }
+
+      unlocked = true;
+      busy = true;
+
       clearErrors();
+      heartStage.classList.add('is-open');
 
-      inputs.forEach(function (field, position) {
-        field.value = value[position] || '';
+      heartInputs.forEach(function (input) {
+        input.readOnly = true;
       });
 
-      inputs[Math.min(value.length, 3)].focus();
-      showStatus('Pulsa Descargar PDF para abrir el candado.');
-    });
-  });
+      heartDownloadButton.disabled = true;
+      heartDownloadButton.textContent = 'Abriendo…';
+      showStatus('La clave era ese día. Secreto desbloqueado.', 'is-ok');
 
-  form.addEventListener('submit', function (event) {
-    event.preventDefault();
+      var delay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 950;
+      downloadTimer = window.setTimeout(function () {
+        busy = false;
+        downloadTimer = null;
 
-    if (busy) return;
-
-    if (unlocked) {
-      downloadPDF();
-      return;
-    }
-
-    var code = inputs.map(function (input) {
-      return input.value;
-    }).join('');
-
-    if (code.length !== 4) {
-      showStatus('Completa los cuatro números.', 'is-error');
-
-      var empty = inputs.find(function (input) {
-        return !input.value;
-      });
-
-      if (empty) empty.focus();
-      return;
-    }
-
-    if (code !== LOCK_CODE) {
-      inputs.forEach(function (input) {
-        input.setAttribute('aria-invalid', 'true');
-      });
-
-      showStatus(
-        'Esa no es la clave. Piensa en nuestra primera conversación.',
-        'is-error'
-      );
-
-      inputs[0].focus();
-      return;
-    }
-
-    unlocked = true;
-    busy = true;
-
-    clearErrors();
-    stage.classList.add('is-open');
-
-    inputs.forEach(function (input) {
-      input.readOnly = true;
+        heartDownloadButton.disabled = false;
+        heartDownloadButton.textContent = 'Descargar PDF';
+        downloadPDF();
+      }, delay);
     });
 
-    downloadButton.disabled = true;
-    downloadButton.textContent = 'Abriendo…';
+    heartOpenButton.addEventListener('click', function () {
+      if (!heartLockModal.open) heartLockModal.showModal();
+    });
 
-    showStatus('La clave era ese día. Secreto desbloqueado.', 'is-ok');
+    heartCloseButton.addEventListener('click', function () {
+      heartLockModal.close();
+    });
 
-    var delay = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches ? 0 : 950;
+    heartLockModal.addEventListener('click', function (event) {
+      if (event.target !== heartLockModal) return;
 
-    downloadTimer = window.setTimeout(function () {
-      busy = false;
-      downloadTimer = null;
+      var rect = heartLockModal.getBoundingClientRect();
+      if (
+        event.clientX < rect.left ||
+        event.clientX > rect.right ||
+        event.clientY < rect.top ||
+        event.clientY > rect.bottom
+      ) {
+        heartLockModal.close();
+      }
+    });
 
-      downloadButton.disabled = false;
-      downloadButton.textContent = 'Descargar PDF';
+    heartLockModal.addEventListener('close', function () {
+      if (downloadTimer !== null) {
+        window.clearTimeout(downloadTimer);
+        downloadTimer = null;
+        busy = false;
 
-      downloadPDF();
-    }, delay);
-  });
-
-  openButton.addEventListener('click', function () {
-    if (!modal.open) modal.showModal();
-  });
-
-  closeButton.addEventListener('click', function () {
-    modal.close();
-  });
-
-  // Cierra solo al pulsar fuera del rectángulo del modal.
-  modal.addEventListener('click', function (event) {
-    if (event.target !== modal) return;
-
-    var rect = modal.getBoundingClientRect();
-
-    if (
-      event.clientX < rect.left ||
-      event.clientX > rect.right ||
-      event.clientY < rect.top ||
-      event.clientY > rect.bottom
-    ) {
-      modal.close();
-    }
-  });
-
-  // Si se cierra durante la animación, evita descargar en segundo plano.
-  modal.addEventListener('close', function () {
-    if (downloadTimer !== null) {
-      window.clearTimeout(downloadTimer);
-      downloadTimer = null;
-      busy = false;
-
-      downloadButton.disabled = false;
-      downloadButton.textContent = 'Descargar PDF';
-    }
-  });
+        heartDownloadButton.disabled = false;
+        heartDownloadButton.textContent = 'Descargar PDF';
+      }
+    });
+  }
 })();
-
-
-
-
-
-
-
-
