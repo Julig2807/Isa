@@ -1016,6 +1016,405 @@ section[id], .intro { scroll-margin-top: 0; }
     animation: none;
   }
 }
+/* =====================================================
+   CANDADO: composición unificada dentro del modal
+   ===================================================== */
+
+/* Modal cerrado: no debe aparecer por reglas anteriores */
+#lock-modal:not([open]) {
+  display: none;
+}
+
+#lock-modal {
+  box-sizing: border-box;
+  width: min(92vw, 58rem);
+  max-width: 92vw;
+
+  height: 85vh;
+  height: 85dvh;
+  max-height: 92vh;
+  max-height: 92dvh;
+
+  margin: auto;
+  padding: 0;
+
+  border: 1px solid var(--line);
+  background: var(--slate);
+  color: var(--text);
+  overflow: hidden;
+}
+
+#lock-modal[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Encabezado: título centrado y Cerrar a la derecha */
+#lock-modal .lock-header {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr) 6rem;
+  align-items: center;
+  gap: .5rem;
+
+  padding: .9rem 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+#lock-modal .lock-title {
+  grid-column: 2;
+
+  margin: 0;
+  padding: 0;
+  max-width: none;
+
+  border: 0;
+  background: none;
+  text-align: center;
+
+  color: #eef3ff;
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.25;
+
+  text-shadow:
+    0 0 7px rgba(159, 180, 232, .4),
+    0 0 20px rgba(159, 180, 232, .18);
+}
+
+#lock-modal .lock-title span {
+  display: block;
+  margin-top: .2rem;
+  color: #c9d7f5;
+  font-size: .8em;
+  font-weight: 400;
+}
+
+#lock-modal #lock-close {
+  position: static;
+  grid-column: 3;
+  justify-self: end;
+
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: .6rem .8rem;
+
+  border-radius: 0;
+  font-size: .7rem;
+}
+
+/* Contenido: candado, explicación y botón en una columna */
+#lock-modal .lock-body {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  margin: 0;
+  padding: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .85rem;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      ellipse at 35% 35%,
+      rgba(159, 180, 232, .22),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 70% 65%,
+      rgba(196, 150, 230, .14),
+      transparent 55%
+    ),
+    var(--slate);
+}
+
+/* Una única caja de referencia para TODO el candado */
+#lock-modal .lock-stage {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+
+  width: min(15rem, 30vh);
+  width: min(15rem, 30dvh);
+  height: auto;
+  aspect-ratio: 200 / 250;
+
+  margin: 0;
+  padding: 0;
+
+  container-type: inline-size;
+  isolation: isolate;
+}
+
+/* Resplandor detrás del conjunto */
+#lock-modal .lock-stage::before {
+  content: "";
+  position: absolute;
+  inset: 20% 0 0;
+  z-index: -1;
+
+  background: radial-gradient(
+    ellipse at center,
+    rgba(159, 180, 232, .2),
+    transparent 70%
+  );
+
+  filter: blur(14px);
+  pointer-events: none;
+}
+
+/* Grillete: el SVG comparte las medidas del escenario.
+   Sus extremos entran detrás del corazón. */
+#lock-modal .lock-stage > .lock-shackle {
+  position: absolute;
+  inset: 0;
+
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+
+  z-index: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+#lock-modal .lock-shackle-motion {
+  transform-box: view-box;
+  transform-origin: 128px 28px;
+  transform: none;
+  transition: transform .85s var(--ease);
+}
+
+/* Cuerpo de cristal */
+#lock-modal .lock-stage > .heart-glass {
+  position: absolute;
+  inset: auto;
+
+  left: 0;
+  top: 24%;
+  width: 100%;
+  height: 68%;
+  margin: 0;
+
+  z-index: 1;
+
+  clip-path: url(#heartClip);
+  -webkit-clip-path: url(#heartClip);
+
+  background: linear-gradient(
+    150deg,
+    rgba(255, 255, 255, .34),
+    rgba(159, 180, 232, .12) 45%,
+    rgba(255, 255, 255, .06) 60%,
+    rgba(255, 255, 255, .22)
+  );
+
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+
+  pointer-events: none;
+}
+
+/* Borde: ocupa exactamente el mismo lugar que el cristal */
+#lock-modal .lock-stage > .heart-outline {
+  position: absolute;
+  inset: auto;
+
+  left: 0;
+  top: 24%;
+  width: 100%;
+  height: 68%;
+  max-width: none;
+  margin: 0;
+
+  display: block;
+  z-index: 2;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* Las casillas quedan DENTRO del corazón */
+#lock-modal .lock-stage > .heart-code {
+  position: absolute;
+  inset: auto;
+
+  left: 50%;
+  top: 48%;
+  transform: translate(-50%, -50%);
+
+  width: 68%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+
+  z-index: 3;
+}
+
+/* Recuadros con el aspecto del contador */
+#lock-modal .heart-code input {
+  box-sizing: border-box;
+  display: block;
+
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  height: 40px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 1px solid rgba(196, 201, 214, .4);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .07);
+
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  line-height: normal;
+
+  caret-color: var(--accent);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
+}
+
+#lock-modal .heart-code input:focus {
+  outline: none;
+  border-color: #c6d7ff;
+  background: rgba(159, 180, 232, .17);
+
+  box-shadow:
+    0 0 0 2px rgba(159, 180, 232, .18),
+    0 0 10px rgba(159, 180, 232, .15);
+}
+
+#lock-modal .heart-code input[aria-invalid="true"] {
+  border-color: #ef9dab;
+}
+
+/* Mensaje y botón: siempre fuera del corazón y centrados */
+#lock-modal .lock-status {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 28rem;
+  min-height: 0;
+  margin: 0;
+
+  color: var(--muted);
+  font-size: .9rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+#lock-modal .lock-status.is-error {
+  color: #efb0bc;
+}
+
+#lock-modal .lock-status.is-ok {
+  color: #c8dcff;
+}
+
+#lock-modal #heart-download-button {
+  flex: 0 0 auto;
+  align-self: center;
+
+  width: auto;
+  max-width: 100%;
+  min-height: 46px;
+  margin: 0;
+  padding: .75rem 1.4rem;
+
+  font-size: .75rem;
+  text-align: center;
+}
+
+/* Apertura */
+#lock-modal .lock-stage.is-open .lock-shackle-motion {
+  transform: translateY(-10px) rotate(28deg);
+}
+
+#lock-modal .lock-stage.is-open .heart-code input {
+  border-color: rgba(182, 211, 255, .75);
+}
+
+#lock-modal [hidden] {
+  display: none !important;
+}
+
+/* Móvil: se permite scroll si falta altura */
+@media (max-width: 40rem) {
+  #lock-modal .lock-header {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: .75rem;
+    padding: .85rem;
+  }
+
+  #lock-modal .lock-title {
+    grid-column: 1 / -1;
+  }
+
+  #lock-modal #lock-close {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  #lock-modal .lock-body {
+    justify-content: flex-start;
+    overflow-y: auto;
+    padding: 1.25rem 1rem;
+  }
+
+  #lock-modal .lock-stage {
+    width: min(55vw, 13rem);
+  }
+}
+
+/* PC con poca altura: composición más compacta */
+@media (min-width: 40.01rem) and (max-height: 650px) {
+  #lock-modal .lock-header {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+  }
+
+  #lock-modal .lock-body {
+    gap: .5rem;
+    padding: .6rem;
+  }
+
+  #lock-modal .lock-stage {
+    width: min(11rem, 25dvh);
+  }
+
+  #lock-modal .lock-title {
+    font-size: 1.1rem;
+  }
+
+  #lock-modal .lock-status {
+    font-size: .8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #lock-modal .lock-shackle-motion {
+    transition: none;
+  }
+}
 
 
 
