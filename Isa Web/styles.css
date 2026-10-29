@@ -660,6 +660,130 @@ html:not(.js) #reveal-btn { display: none; }
   display: flex;
   justify-content: center;
   margin-top: 3.5rem;
+
+  /* ===== Espaciado uniforme entre secciones =====
+   Misma regla que portada → universo: 3rem abajo + padding-top de la siguiente */
+.section { min-height: auto; padding-bottom: 3rem; }
+.intro {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.intro .section--song { padding-bottom: 3rem; }
+.intro .section--cover {
+  min-height: auto;
+  padding-top: 6.5rem;
+  padding-bottom: 3rem;
+}
+#resultados { padding-bottom: 4rem; }
+@media (min-width: 40rem) {
+  .intro .section--cover { padding-top: 8rem; }
+}
+/* Anula el espaciado viejo */
+#zona-resultados { margin-top: 0; padding-top: 0; }
+#zona-resultados::before { display: none; }
+
+/* Que el menú fijo no tape el título al navegar */
+section[id], .intro { scroll-margin-top: 0; }
+
+/* ===== Candado de cristal ===== */
+.secret-pdf { margin-top: 2.5rem; display: flex; justify-content: center; }
+
+.btn--glass {
+  border-color: rgba(196, 201, 214, .35);
+  background: rgba(255, 255, 255, .05);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18), 0 8px 24px rgba(0, 0, 0, .3);
+  border-radius: 999px;
+  letter-spacing: .16em;
+  font-size: .75rem;
+}
+.btn--glass:hover { background: rgba(236, 238, 245, .9); color: var(--bg); }
+
+.lock-modal {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--text);
+  max-width: 92vw;
+  overflow: visible;
+}
+.lock-modal::backdrop {
+  background: rgba(2, 3, 10, .7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.lock-card {
+  position: relative;
+  width: min(92vw, 24rem);
+  padding: 2.5rem 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  text-align: center;
+  border-radius: 24px;
+  border: 1px solid rgba(196, 201, 214, .3);
+  background: linear-gradient(160deg, rgba(255, 255, 255, .10), rgba(159, 180, 232, .04));
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), inset 0 0 40px rgba(159, 180, 232, .06), 0 30px 70px rgba(0, 0, 0, .5);
+}
+.lock-modal[open] .lock-card { animation: lockIn .6s var(--ease) both; }
+@keyframes lockIn { from { opacity: 0; transform: translateY(14px) scale(.97); } }
+
+.lock-close {
+  position: absolute; top: .6rem; right: .8rem;
+  width: 40px; height: 40px;
+  background: transparent; border: 0;
+  color: var(--muted); font-size: 1.6rem; cursor: pointer;
+}
+.lock-close:hover { color: var(--text); }
+
+.lock-title {
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 5vw, 1.55rem);
+  line-height: 1.3;
+  margin: 0;
+  padding: 0 1rem;
+}
+
+.lock { width: 96px; height: auto; overflow: visible; filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .45)); }
+.lock__body { fill: url(#lockGlass); stroke: var(--silver); stroke-width: 1.4; }
+.lock__shackle {
+  fill: none; stroke: var(--silver); stroke-width: 3.2; stroke-linecap: round;
+  transform-origin: 42px 34px;
+  transition: transform .9s var(--ease);
+}
+.lock__hole { fill: var(--silver); opacity: .8; }
+.lock.is-open .lock__shackle { transform: translateY(-9px) rotate(28deg); }
+.lock.is-open { animation: lockGlow 1.4s var(--ease); }
+@keyframes lockGlow { 50% { filter: drop-shadow(0 0 18px rgba(159, 180, 232, .75)); } }
+.lock.is-error { animation: lockShake .45s; }
+@keyframes lockShake {
+  20%, 60% { transform: translateX(-7px); }
+  40%, 80% { transform: translateX(7px); }
+}
+
+.lock-form { display: flex; flex-direction: column; align-items: center; gap: 1rem; width: 100%; }
+.pin { display: flex; gap: .7rem; }
+.pin input {
+  width: 3.2rem; height: 3.8rem;
+  text-align: center;
+  font: inherit; font-size: 1.5rem;
+  color: var(--text);
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(196, 201, 214, .3);
+  border-radius: 14px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
+  transition: border-color .3s var(--ease), box-shadow .3s var(--ease);
+}
+.pin input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(159, 180, 232, .25); }
+.lock-status { margin: 0; min-height: 1.5em; font-size: .85rem; color: var(--muted); }
+.lock-status.is-error { color: #f1a3a3; }
+.lock-status.is-ok { color: var(--accent); }
 }
 
 .btn--centrado {
