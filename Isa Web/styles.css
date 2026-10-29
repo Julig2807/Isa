@@ -1415,6 +1415,43 @@ section[id], .intro { scroll-margin-top: 0; }
     transition: none;
   }
 }
+/* ===== Acabado final: corazón sin fondo ===== */
+
+/* Azul oscuro uniforme en todo el modal */
+#lock-modal,
+#lock-modal .lock-header,
+#lock-modal .lock-body {
+  background: #0a1024;
+  background-image: none;
+}
+
+/* Quita el cristal de relleno, conservando el contorno */
+#lock-modal .lock-stage > .heart-glass {
+  display: none;
+}
+
+/* Quita el halo que había detrás del corazón */
+#lock-modal .lock-stage::before {
+  display: none;
+}
+
+/* Conserva el borde y los reflejos, sin fondo propio */
+#lock-modal .lock-stage > .heart-outline {
+  background: transparent;
+  filter: none;
+}
+
+/* Mantiene el grillete alineado con la composición */
+#lock-modal .lock-stage > .lock-shackle {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Punto de giro ajustado a la nueva longitud */
+#lock-modal .lock-shackle-motion {
+  transform-origin: 128px 14px;
+}
 
 
 
