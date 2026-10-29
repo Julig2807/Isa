@@ -819,6 +819,204 @@ section[id], .intro { scroll-margin-top: 0; }
 .lock-stage.is-open .wheel { border-color: rgba(159, 180, 232, .8); }
 }
 
+/* ===== Ajustes del candado: tamaño, clave y encabezado ===== */
+
+/* Título centrado independientemente del ancho de Cerrar */
+#lock-modal .lock-header {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr) 5.5rem;
+  align-items: center;
+  gap: .5rem;
+  padding: 1rem .8rem;
+}
+
+#lock-modal .lock-title {
+  grid-column: 2;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+  border: 0;
+  border-radius: 0;
+  background: none;
+
+  color: #eef3ff;
+  text-align: center;
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 3.4vw, 1.4rem);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: .025em;
+
+  text-shadow:
+    0 0 7px rgba(159, 180, 232, .4),
+    0 0 20px rgba(159, 180, 232, .18);
+}
+
+#lock-modal .lock-title span {
+  display: block;
+  margin-top: .25rem;
+  color: #c9d7f5;
+  font-size: .8em;
+  font-weight: 400;
+}
+
+#lock-modal #lock-close {
+  grid-column: 3;
+  justify-self: end;
+  margin: 0;
+}
+
+#lock-modal .lock-body {
+  margin: 0;
+  gap: 1.25rem;
+  overflow-y: auto;
+}
+
+/* Exactamente la mitad de las medidas anteriores */
+#lock-modal .lock-stage {
+  width: min(39vw, 9.5rem, 21dvh);
+  aspect-ratio: 200 / 250;
+  container-type: inline-size;
+  flex: none;
+  isolation: isolate;
+}
+
+/* Baja el grillete para integrarlo en el cuerpo */
+#lock-modal .lock-shackle {
+  top: 12%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+#lock-modal .lock-shackle-motion {
+  transform-box: view-box;
+  transform-origin: 128px 28px;
+  transition: transform .85s var(--ease);
+}
+
+/* El corazón tapa los extremos del grillete */
+#lock-modal .heart-glass {
+  z-index: 1;
+}
+
+#lock-modal .heart-outline {
+  z-index: 2;
+}
+
+/* Casillas inspiradas en el contador */
+#lock-modal .heart-code {
+  position: absolute;
+  top: 49%;
+  left: 50%;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+
+  width: 69%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2cqw;
+}
+
+#lock-modal .heart-code input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: 24cqw;
+  margin: 0;
+  padding: 0;
+
+  border: 1px solid rgba(196, 201, 214, .4);
+  border-radius: 4cqw;
+  background: rgba(255, 255, 255, .07);
+
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: normal;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  caret-color: var(--accent);
+
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
+
+  transition:
+    border-color .25s ease,
+    background .25s ease,
+    box-shadow .25s ease;
+}
+
+#lock-modal .heart-code input:focus {
+  outline: none;
+  border-color: #c6d7ff;
+  background: rgba(159, 180, 232, .17);
+  box-shadow:
+    0 0 0 2px rgba(159, 180, 232, .18),
+    0 0 10px rgba(159, 180, 232, .15);
+}
+
+#lock-modal .heart-code input[aria-invalid="true"] {
+  border-color: rgba(239, 157, 171, .85);
+}
+
+#lock-modal .lock-status {
+  max-width: 26rem;
+  margin: 0;
+  text-align: center;
+}
+
+#lock-modal .lock-status.is-error {
+  color: #efb0bc;
+}
+
+#lock-modal .lock-status.is-ok {
+  color: #c8dcff;
+}
+
+#lock-modal .lock-stage.is-open .lock-shackle-motion {
+  transform: translateY(-10px) rotate(28deg);
+}
+
+#lock-modal .lock-stage.is-open .heart-code input {
+  border-color: rgba(182, 211, 255, .7);
+}
+
+#lock-modal #heart-download-button:disabled {
+  cursor: wait;
+  opacity: .65;
+}
+
+#lock-modal [hidden] {
+  display: none !important;
+}
+
+/* Más espacio para el título en móvil */
+@media (max-width: 30rem) {
+  #lock-modal .lock-header {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: .75rem;
+  }
+
+  #lock-modal .lock-title,
+  #lock-modal #lock-close {
+    grid-column: 1;
+    justify-self: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #lock-modal .lock-shackle-motion {
+    transition: none;
+  }
+
+  #lock-modal .heart-glass {
+    animation: none;
+  }
+}
+
 
 
   
