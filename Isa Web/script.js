@@ -241,164 +241,220 @@
     }
   }
 
-  /* ---------- Menú hamburguesa (solo móvil) ---------- */
-  var navToggle = document.getElementById('nav-toggle');
-  var navMenu = document.getElementById('nav-menu');
-
-  if (navToggle && navMenu) {
-    navToggle.addEventListener('click', function () {
-      var open = navMenu.classList.toggle('is-open');
-      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      navToggle.setAttribute('aria-label', open ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
-    });
-
-    navMenu.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        navMenu.classList.remove('is-open');
-        navToggle.setAttribute('aria-expanded', 'false');
-      });
-    });
-  }
-
-  /* ---------- Candado de corazón + PDF ---------- */
+/* ---------- Candado de corazón + PDF ---------- */
+(function () {
+  // Coloca este archivo junto a index.html,
+  // o cambia esta ruta por la ubicación de tu PDF.
   var PDF_URL = 'secreto.pdf';
   var LOCK_CODE = '2609';
 
-  var lockModal = document.getElementById('lock-modal');
-  var openLock = document.getElementById('open-lock');
-  var closeLock = document.getElementById('lock-close');
-  var lockStage = document.getElementById('lock-stage');
-  var wheelsBox = document.getElementById('wheels');
-  var lockStatus = document.getElementById('lock-status');
-  var lockDownload = document.getElementById('lock-download');
+  var modal = document.getElementById('lock-modal');
+  var openButton = document.getElementById('open-lock');
+  var closeButton = document.getElementById('lock-close');
+  var stage = document.getElementById('lock-stage');
+  var form = document.getElementById('heart-lock-form');
+  var status = document.getElementById('lock-status');
+  var downloadButton = document.getElementById('heart-download-button');
+  var downloadLink = document.getElementById('lock-download');
 
-  if (lockModal && openLock && wheelsBox) {
-    var digits = [0, 0, 0, 0];
-    var wheelEls = [];
-    var unlocked = false;
-    var checkTimer = null;
-    var CHEVRON_UP = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>';
-    var CHEVRON_DOWN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+  var inputs = Array.prototype.slice.call(
+    document.querySelectorAll('#heart-code input')
+  );
 
-    if (lockDownload) lockDownload.setAttribute('href', PDF_URL);
+  if (
+    !modal || !openButton || !closeButton ||
+    !stage || !form || !status ||
+    !downloadButton || !downloadLink || inputs.length !== 4
+  ) {
+    return;
+  }
 
-    function renderDigit(i, dir) {
-      var w = wheelEls[i];
-      if (!w) return;
-      w.digit.textContent = digits[i];
-      w.win.setAttribute('aria-valuenow', digits[i]);
-      w.digit.classList.remove('roll-up', 'roll-down');
-      if (dir) {
-        void w.digit.offsetWidth;
-        w.digit.classList.add(dir > 0 ? 'roll-up' : 'roll-down');
+  var unlocked = false;
+  var busy = false;
+  var downloadTimer = null;
+
+  downloadLink.href = PDF_URL;
+
+  function showStatus(message, state) {
+    status.textContent = message;
+    status.className = 'lock-status' + (state ? ' ' + state : '');
+  }
+
+  function clearErrors() {
+    inputs.forEach(function (input) {
+      input.removeAttribute('aria-invalid');
+    });
+  }
+
+  function downloadPDF() {
+    downloadLink.click();
+  }
+
+  inputs.forEach(function (input, index) {
+    input.addEventListener('focus', function () {
+      input.select();
+    });
+
+    input.addEventListener('input', function () {
+      input.value = input.value.replace(/\D/g, '').slice(-1);
+      clearErrors();
+
+      showStatus('Escribe la clave para descubrir el secreto.');
+
+      if (input.value && index < inputs.length - 1) {
+        inputs[index + 1].focus();
       }
-    }
+    });
 
-    function step(i, delta) {
-      if (unlocked) return;
-      digits[i] = (digits[i] + delta + 10) % 10;
-      renderDigit(i, delta);
-      if (navigator.vibrate) navigator.vibrate(8);
-      clearTimeout(checkTimer);
-      checkTimer = setTimeout(checkCode, 350);
-    }
+    input.addEventListener('keydown', function (event) {
+      if (event.key === 'Backspace' && !input.value && index > 0) {
+        event.preventDefault();
+        inputs[index - 1].focus();
+      }
 
-    function setDigit(i, value) {
-      if (unlocked) return;
-      digits[i] = value;
-      renderDigit(i, 1);
-      clearTimeout(checkTimer);
-      checkTimer = setTimeout(checkCode, 350);
-    }
+      if (event.key === 'ArrowLeft' && index > 0) {
+        event.preventDefault();
+        inputs[index - 1].focus();
+      }
 
-    function checkCode() {
-      if (unlocked || digits.join('') !== LOCK_CODE) return;
-      unlocked = true;
-      if (lockStage) lockStage.classList.add('is-open');
-      wheelEls.forEach(function (w) {
-        w.up.disabled = true;
-        w.down.disabled = true;
-        w.win.setAttribute('tabindex', '-1');
+      if (event.key === 'ArrowRight' && index < inputs.length - 1) {
+        event.preventDefault();
+        inputs[index + 1].focus();
+      }
+    });
+
+    input.addEventListener('paste', function (event) {
+      var clipboard = event.clipboardData;
+      if (!clipboard) return;
+
+      var value = clipboard.getData('text')
+        .replace(/\D/g, '')
+        .slice(0, 4);
+
+      if (!value) return;
+
+      event.preventDefault();
+      clearErrors();
+
+      inputs.forEach(function (field, position) {
+        field.value = value[position] || '';
       });
-      if (lockStatus) {
-        lockStatus.textContent = '¡Se abrió!';
-        lockStatus.className = 'lock-status is-ok';
-      }
-      if (navigator.vibrate) navigator.vibrate([30, 40, 60]);
-      setTimeout(function () {
-        if (lockDownload) {
-          lockDownload.hidden = false;
-          lockDownload.click();
-        }
-      }, 1300);
+
+      inputs[Math.min(value.length, 3)].focus();
+      showStatus('Pulsa Descargar PDF para abrir el candado.');
+    });
+  });
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    if (busy) return;
+
+    if (unlocked) {
+      downloadPDF();
+      return;
     }
 
-    for (var n = 0; n < 4; n++) {
-      (function (i) {
-        var wheel = document.createElement('div');
-        wheel.className = 'wheel';
-        wheel.innerHTML =
-          '<button type="button" class="wheel__btn" aria-label="Subir dígito ' + (i + 1) + '">' + CHEVRON_UP + '</button>' +
-          '<div class="wheel__window" tabindex="0" role="spinbutton" aria-label="Dígito ' + (i + 1) + '" aria-valuemin="0" aria-valuemax="9" aria-valuenow="0"><span class="wheel__digit">0</span></div>' +
-          '<button type="button" class="wheel__btn" aria-label="Bajar dígito ' + (i + 1) + '">' + CHEVRON_DOWN + '</button>';
-        wheelsBox.appendChild(wheel);
+    var code = inputs.map(function (input) {
+      return input.value;
+    }).join('');
 
-        var btns = wheel.querySelectorAll('.wheel__btn');
-        var w = {
-          up: btns[0],
-          down: btns[1],
-          win: wheel.querySelector('.wheel__window'),
-          digit: wheel.querySelector('.wheel__digit')
-        };
-        wheelEls.push(w);
+    if (code.length !== 4) {
+      showStatus('Completa los cuatro números.', 'is-error');
 
-        w.up.addEventListener('click', function () { step(i, 1); });
-        w.down.addEventListener('click', function () { step(i, -1); });
+      var empty = inputs.find(function (input) {
+        return !input.value;
+      });
 
-        var lastY = null, acc = 0;
-        w.win.addEventListener('pointerdown', function (e) {
-          lastY = e.clientY; acc = 0;
-          w.win.setPointerCapture(e.pointerId);
-        });
-        w.win.addEventListener('pointermove', function (e) {
-          if (lastY === null) return;
-          acc += lastY - e.clientY;
-          lastY = e.clientY;
-          while (acc >= 22) { step(i, 1); acc -= 22; }
-          while (acc <= -22) { step(i, -1); acc += 22; }
-        });
-        function endDrag() { lastY = null; acc = 0; }
-        w.win.addEventListener('pointerup', endDrag);
-        w.win.addEventListener('pointercancel', endDrag);
-
-        w.win.addEventListener('wheel', function (e) {
-          e.preventDefault();
-          step(i, e.deltaY < 0 ? 1 : -1);
-        }, { passive: false });
-
-        w.win.addEventListener('keydown', function (e) {
-          if (e.key === 'ArrowUp') { e.preventDefault(); step(i, 1); }
-          else if (e.key === 'ArrowDown') { e.preventDefault(); step(i, -1); }
-          else if (/^[0-9]$/.test(e.key)) { setDigit(i, Number(e.key)); }
-          else if (e.key === 'ArrowRight' && wheelEls[i + 1]) { wheelEls[i + 1].win.focus(); }
-          else if (e.key === 'ArrowLeft' && wheelEls[i - 1]) { wheelEls[i - 1].win.focus(); }
-        });
-      })(n);
+      if (empty) empty.focus();
+      return;
     }
 
-    openLock.addEventListener('click', function () {
-      lockModal.showModal();
-      if (unlocked && lockDownload) lockDownload.hidden = false;
-    });
-    closeLock.addEventListener('click', function () { lockModal.close(); });
-    lockModal.addEventListener('click', function (e) { if (e.target === lockModal) lockModal.close(); });
-  }
+    if (code !== LOCK_CODE) {
+      inputs.forEach(function (input) {
+        input.setAttribute('aria-invalid', 'true');
+      });
 
-  var lockForm = document.getElementById('lock-form');
-  if (lockForm) {
-    lockForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      if (typeof tryUnlock === 'function') tryUnlock();
+      showStatus(
+        'Esa no es la clave. Piensa en nuestra primera conversación.',
+        'is-error'
+      );
+
+      inputs[0].focus();
+      return;
+    }
+
+    unlocked = true;
+    busy = true;
+
+    clearErrors();
+    stage.classList.add('is-open');
+
+    inputs.forEach(function (input) {
+      input.readOnly = true;
     });
-  }
+
+    downloadButton.disabled = true;
+    downloadButton.textContent = 'Abriendo…';
+
+    showStatus('La clave era ese día. Secreto desbloqueado.', 'is-ok');
+
+    var delay = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches ? 0 : 950;
+
+    downloadTimer = window.setTimeout(function () {
+      busy = false;
+      downloadTimer = null;
+
+      downloadButton.disabled = false;
+      downloadButton.textContent = 'Descargar PDF';
+
+      downloadPDF();
+    }, delay);
+  });
+
+  openButton.addEventListener('click', function () {
+    if (!modal.open) modal.showModal();
+  });
+
+  closeButton.addEventListener('click', function () {
+    modal.close();
+  });
+
+  // Cierra solo al pulsar fuera del rectángulo del modal.
+  modal.addEventListener('click', function (event) {
+    if (event.target !== modal) return;
+
+    var rect = modal.getBoundingClientRect();
+
+    if (
+      event.clientX < rect.left ||
+      event.clientX > rect.right ||
+      event.clientY < rect.top ||
+      event.clientY > rect.bottom
+    ) {
+      modal.close();
+    }
+  });
+
+  // Si se cierra durante la animación, evita descargar en segundo plano.
+  modal.addEventListener('close', function () {
+    if (downloadTimer !== null) {
+      window.clearTimeout(downloadTimer);
+      downloadTimer = null;
+      busy = false;
+
+      downloadButton.disabled = false;
+      downloadButton.textContent = 'Descargar PDF';
+    }
+  });
 })();
+
+
+
+
+
+
+
+
