@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#03040a">
   <title>Para Isa</title>
   <meta name="description" content="Un pequeño detalle para Isa.">
-  <link rel="preload" as="image" href="isa-artwork.png"> 
+  <link rel="preload" as="image" href="isa-artwork.png">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="is-loading">
@@ -15,49 +15,53 @@
 
   <a class="skip-link" href="#universo">Saltar al contenido</a>
 
- <nav class="site-nav" aria-label="Secciones">
-  <button type="button" class="nav-toggle" id="nav-toggle"
-          aria-expanded="false" aria-controls="nav-menu"
-          aria-label="Abrir menú de navegación">
-    <span class="nav-toggle__bar"></span>
-    <span class="nav-toggle__bar"></span>
-    <span class="nav-toggle__bar"></span>
-  </button>
+  <nav class="site-nav" aria-label="Secciones">
+    <button type="button" class="nav-toggle" id="nav-toggle"
+            aria-expanded="false" aria-controls="nav-menu"
+            aria-label="Abrir menú de navegación">
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+    </button>
 
-  <ul class="site-nav__menu" id="nav-menu">
-    <li><a href="#portada">Inicio</a></li>
-    <li><a href="#universo">Tu universo</a></li>
-    <li><a href="#capitulo">Tu capítulo</a></li>
-    <li><a href="#final">Mensaje</a></li>
-    <li><a href="#Galeria de Recuerdos">Galeria de Recuerdos</a></li>
-    <li><a href="#zona-resultados">Resultados</a></li>
-  </ul>
-</nav>
-  
+    <ul class="site-nav__menu" id="nav-menu">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#universo">Tu universo</a></li>
+      <li><a href="#capitulo">Tu capítulo</a></li>
+      <li><a href="#final">Mensaje</a></li>
+      <li><a href="#galeria">Galería de Recuerdos</a></li>
+      <li><a href="#zona-resultados">Resultados</a></li>
+    </ul>
+  </nav>
+
   <main>
 
-     <!-- MÚSICA -->
-<section id="cancion" class="section section--song" aria-labelledby="titulo-cancion">
-<div class="song reveal">
-<h2 id="titulo-cancion" class="song__title">Tu canción para acompañar este momento</h2>
-<iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0zWdjTVbmnDNfuL9XObXLg?utm_source=generator&theme=0&si=7d6944760578446d" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>       
-<!-- Para cambiar buscar la cancion en Spotify he insertar pista remplazando la linea de arriba  -->
+    <!-- INICIO = MÚSICA + PORTADA (mismo contenedor para igualar el espacio) -->
+    <div class="intro" id="inicio">
+
+      <!-- MÚSICA -->
+      <section id="cancion" class="section section--song" aria-labelledby="titulo-cancion">
+        <div class="song reveal">
+          <h2 id="titulo-cancion" class="song__title">Tu canción para acompañar este momento</h2>
+          <iframe data-testid="embed-iframe" title="Playlist de Spotify" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0zWdjTVbmnDNfuL9XObXLg?utm_source=generator&amp;theme=0&amp;si=7d6944760578446d" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+          <!-- Para cambiar: buscar la canción en Spotify, insertar pista y reemplazar la línea de arriba -->
         </div>
+      </section>
+
+      <!-- SECCIÓN 1: PORTADA -->
+      <section id="portada" class="section section--cover" aria-labelledby="titulo-portada">
+        <div class="cover__inner">
+          <h1 id="titulo-portada" class="title reveal" style="--delay:.15s">Isa</h1>
+          <p class="lead reveal" style="--delay:.3s">Hay cielos que se miran con calma, y este es uno hecho para ti.</p>
+          <button type="button" class="btn btn--primary reveal" style="--delay:.45s" data-scroll-to="#universo">Descubrir</button>
         </div>
-    </section>
-    
-    <!-- SECCIÓN 1: PORTADA -->
-    <section id="portada" class="section section--cover" aria-labelledby="titulo-portada">
-      <div class="cover__inner">
-        <h1 id="titulo-portada" class="title reveal" style="--delay:.15s">Isa</h1>
-        <p class="lead reveal" style="--delay:.3s">Hay cielos que se miran con calma, y este es uno hecho para ti.</p>
-        <button type="button" class="btn btn--primary reveal" style="--delay:.45s" data-scroll-to="#universo">Descubrir</button>
-      </div>
-      <span class="scroll-hint" aria-hidden="true"></span>
-    </section>
+        <span class="scroll-hint" aria-hidden="true"></span>
+      </section>
+
+    </div><!-- /intro -->
 
     <!-- SECCIÓN 2: EL UNIVERSO DE ISA (Las flash card con mensajitos) -->
-   <section id="universo" class="section" aria-labelledby="titulo-universo">
+    <section id="universo" class="section" aria-labelledby="titulo-universo">
       <header class="section__header reveal">
         <p class="eyebrow">I</p>
         <h2 id="titulo-universo" class="title title--section">El universo de Isa</h2>
@@ -67,7 +71,7 @@
       <div class="cards">
         <article class="card reveal">
           <svg class="card__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20M2 12h20" /><circle cx="12" cy="12" r="3"/></svg>
-          <h3 class="card__title">Musíca</h3>
+          <h3 class="card__title">Música</h3>
           <p class="card__text">hora Ousi suena a ti.</p>
           <p class="card__ref">Los mejores gustos</p>
         </article>
@@ -92,8 +96,7 @@
       </div>
     </section>
 
-
-    <!-- SECCIÓN 3: TU PRÓXIMO CAPÍTULO (Mensajes motivacionales ) -->
+    <!-- SECCIÓN 3: TU PRÓXIMO CAPÍTULO (Mensajes motivacionales) -->
     <section id="capitulo" class="section" aria-labelledby="titulo-capitulo">
       <div class="chapter">
         <p class="eyebrow reveal">II</p>
@@ -106,7 +109,6 @@
       </div>
     </section>
 
-
     <!-- SECCIÓN 4: MENSAJE FINAL (Parte secreta. SOLO AL FINAL) -->
     <section id="final" class="section section--final" aria-labelledby="titulo-final">
       <p class="eyebrow reveal">III</p>
@@ -116,151 +118,192 @@
 
       <div id="final-message" class="final-message" role="region" aria-live="polite">
         <div class="final-message__inner">
-          <svg class="constellation" viewBox="0 0 200 80" aria-hidden="true">  <!-- Animacion -->
+          <svg class="constellation" viewBox="0 0 200 80" aria-hidden="true"> <!-- Animacion -->
             <polyline points="10,60 50,30 95,45 140,15 190,35" />
             <circle cx="10" cy="60" r="2.2"/><circle cx="50" cy="30" r="2.6"/><circle cx="95" cy="45" r="2"/><circle cx="140" cy="15" r="3"/><circle cx="190" cy="35" r="2.2"/>
           </svg>
           <p class="final-message__text">Confío en ti, hoy y siempre. Ve con calma: el cielo estará aquí cuando regreses.</p>
           <p class="final-message__dedication">Siempre recuerda que Algun día seras mia...</p>
+
+          <!-- BOTÓN DEL CANDADO / PDF -->
+          <div class="secret-pdf">
+            <button type="button" class="btn btn--glass" id="open-lock">Este sí es el verdadero secreto</button>
+          </div>
         </div>
       </div>
-</section>
+    </section>
 
-<!-- SECCIÓN 5: GALERIA DE RECUERDOS--> 
+    <!-- SECCIÓN 5: GALERÍA DE RECUERDOS -->
+    <section id="galeria" class="section section--galeria" aria-labelledby="titulo-galeria">
+      <p class="eyebrow reveal">IV</p>
+      <h2 id="titulo-galeria" class="title title--section reveal">
+        Como no te pude bajar una estrella te compre una
+      </h2>
 
-<section id="final" class="section section--Galeria de Recuerdos" aria-labelledby="titulo-final">
-  <p class="eyebrow reveal">IV</p>
-  <h2 id="titulo-final" class="title title--section reveal">
-    Como no te pude bajar una estrella te compre una
-  </h2>
+      <div class="galeria-recuerdos reveal">
 
-  <div class="galeria-recuerdos reveal">
+        <!-- Mapa estelar, Medellín 26 de Octubre de 2026 -->
+        <figure class="recuerdo recuerdo--mapa">
+          <div class="recuerdo__marco">
+            <img
+              class="recuerdo__img recuerdo__img--mapa"
+              src="isa-artwork.png"
+              width="2060"
+              height="1442"
+              alt="Mapa estelar para Isa: el cielo de Medellín el 26 de octubre de 2026"
+              decoding="async"
+            >
+          </div>
 
-    <!-- Mapa estelar, Medellín 26 de Octubre de 2026-->
-    <figure class="recuerdo recuerdo--mapa">
-      <div class="recuerdo__marco">
-        <img
-          class="recuerdo__img recuerdo__img--mapa"
-          src="isa-artwork.png"
-          width="2060"
-          height="1442"
-          alt="Mapa estelar para Isa: el cielo de Medellín el 26 de octubre de 2026"
-          decoding="async"
-        >
+          <figcaption class="recuerdo__texto">
+            El día de tu examen, estas fueron todas las estrellas que había.
+            Te reto a que te encuentres.
+          </figcaption>
+        </figure>
+
+        <!-- Certificado Estelar (Bela Lopez) -->
+        <figure class="recuerdo recuerdo--certificado">
+          <a
+            class="recuerdo__enlace"
+            href="https://www.staracle.com/createAccount/claimYourStar.php"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Abrir el certificado estelar en Staracle"
+          >
+            <div class="recuerdo__marco">
+              <img
+                class="recuerdo__img recuerdo__img--certificado"
+                src="Certificado Estelar.png"
+                width="1800"
+                height="1200"
+                alt="Certificado Estelar para Bela Lopez. Toca para abrirlo en Staracle"
+                decoding="async"
+              >
+            </div>
+          </a>
+
+          <figcaption class="recuerdo__texto">
+            Yo no soy de prometer el cielo,
+            yo soy de entregar una parte de él.
+            <span class="recuerdo__accion">Toca el certificado para reclamar tu estrella</span>
+          </figcaption>
+        </figure>
+
+      </div><!-- /galeria-recuerdos -->
+    </section>
+
+    <!-- SECCIÓN 6: RESULTADOS -->
+
+    <!-- Temporizador, Ni siquiera mirar (no mover por nada en este mundo) -->
+
+    <div id="zona-resultados" class="section">
+
+      <div class="countdown reveal" id="countdown" role="timer" aria-live="off">
+        <p class="eyebrow">V</p>
+        <h2 class="title title--section">Aún no es tiempo...</h2>
+        <p class="prose">Esta parte se abre el 11 de noviembre a las 12:00 a. m.</p>
+        <div class="countdown__grid">
+          <div><span id="cd-d">--</span><small>días</small></div>
+          <div><span id="cd-h">--</span><small>horas</small></div>
+          <div><span id="cd-m">--</span><small>min</small></div>
+          <div><span id="cd-s">--</span><small>seg</small></div>
+        </div>
       </div>
 
-      <figcaption class="recuerdo__texto">
-        El día de tu examen, estas fueron todas las estrellas que había.
-        Te reto a que te encuentres.
-      </figcaption>
-    </figure>
+      <div id="bloque-resultados" hidden>
 
- <!-- Certificado Estelar (Bela Lopez) -->
-    
-<figure class="recuerdo recuerdo--certificado">
-  <a
-    class="recuerdo__enlace"
-    href="https://www.staracle.com/createAccount/claimYourStar.php"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="Abrir el certificado estelar en Staracle"
-  >
-    <div class="recuerdo__marco">
-      <img
-        class="recuerdo__img recuerdo__img--certificado"
-        src="Certificado Estelar.png"
-        width="1800"
-        height="1200"
-        alt="Certificado Estelar para Bela Lopez. Toca para abrirlo en Staracle"
-        decoding="async"
+        <!-- Carta -->
+        <section id="resultados" class="section" aria-labelledby="titulo-resultados">
+          <div class="chapter">
+            <p class="eyebrow reveal">IV</p>
+            <h2 id="titulo-resultados" class="title title--section reveal">Pase lo que pase</h2>
+
+            <p class="prose reveal">Hoy un número o una lista van a decir algo sobre un examen. No van a decir nada sobre ti. Lo que eres se ve en cómo estudiaste, en cómo insististe y en cómo te levantas cuando algo no sale como querías.</p>
+            <p class="prose reveal">Si el resultado es que sí, celebra con todo, porque te lo ganaste. Si es que no, llora lo que necesites, pero no lo tomes como una sentencia. Un camino que no sale a la primera sigue siendo tu camino, y los sueños grandes casi nunca saldran en un solo intento.</p>
+            <p class="prose reveal">Lo único que te pido es que no sueltes lo que quieres ser. Cambian las fechas, las convocatorias y los planes, pero tus ganas y tu esfuerzo siguen siendo tuyos.</p>
+
+            <blockquote class="dedication reveal">
+              <p>Estés donde estés mañana, ya llegaste lejos.</p>
+            </blockquote>
+
+            <!-- BOTON, No mover ni por el HPTA -->
+
+            <button class="btn reveal" type="button" id="open-results">Ver mis resultados</button>
+
+            <dialog class="results-modal" id="results-modal" aria-label="Resultados de admisión UdeA">
+              <div class="results-modal__bar">
+                <a class="btn btn--ghost" href="https://resultados.udea.edu.co/" target="_blank" rel="noopener noreferrer">Abrir en pestaña nueva</a>
+                <button class="btn btn--ghost" type="button" id="close-results">Cerrar</button>
+              </div>
+              <iframe id="results-frame" title="Resultados de admisión UdeA" referrerpolicy="no-referrer"></iframe>
+            </dialog>
+          </div>
+        </section>
+
+        <div style="display: flex; justify-content: center;">
+          <p class="prose reveal">En caso de no funcionar bien dale a Abrir en pestaña nueva, porfa &lt;3 </p>
+        </div>
+
+      </div><!-- /bloque-resultados -->
+    </div><!-- /zona-resultados -->
+
+    <!-- BOTON FINAL -->
+    <div class="volver-inicio">
+      <button
+        type="button"
+        class="btn btn--ghost btn--centrado reveal"
+        data-scroll-to="#inicio"
       >
+        Volver al inicio
+      </button>
     </div>
-  </a>
 
-  <figcaption class="recuerdo__texto">
-    Yo no soy de prometer el cielo,
-    yo soy de entregar una parte de él.
-    <span class="recuerdo__accion">Toca el certificado para reclamar tu estrella</span>
-  </figcaption>
-</figure>
-</section>
-    
-<!-- SECCIÓN 6: RESULTADOS -->
+  </main>
 
-<!-- Temporizador, Ni siquiera mirar (no mover por nada en este mundo) -->
-
-      <div id="zona-resultados">
-
-  <div class="countdown reveal" id="countdown" role="timer" aria-live="off">
-    <p class="eyebrow">V</p>
-    <h2 class="title title--section">Aún no es tiempo...</h2>
-    <p class="prose">Esta parte se abre el 11 de noviembre a las 12:00 a. m.</p>
-    <div class="countdown__grid">
-      <div><span id="cd-d">--</span><small>días</small></div>
-      <div><span id="cd-h">--</span><small>horas</small></div>
-      <div><span id="cd-m">--</span><small>min</small></div>
-      <div><span id="cd-s">--</span><small>seg</small></div>
-    </div>
-  </div>
-
-  <div id="bloque-resultados" hidden>
-
-                                              <!--Carta -->
-
-    
-<section id="resultados" class="section" aria-labelledby="titulo-resultados">
-  <div class="chapter">
-    <p class="eyebrow reveal">IV</p>
-    <h2 id="titulo-resultados" class="title title--section reveal">Pase lo que pase</h2>
-
-    <p class="prose reveal">Hoy un número o una lista van a decir algo sobre un examen. No van a decir nada sobre ti. Lo que eres se ve en cómo estudiaste, en cómo insististe y en cómo te levantas cuando algo no sale como querías.</p>
-    <p class="prose reveal">Si el resultado es que sí, celebra con todo, porque te lo ganaste. Si es que no, llora lo que necesites, pero no lo tomes como una sentencia. Un camino que no sale a la primera sigue siendo tu camino, y los sueños grandes casi nunca saldran en un solo intento.</p>
-    <p class="prose reveal">Lo único que te pido es que no sueltes lo que quieres ser. Cambian las fechas, las convocatorias y los planes, pero tus ganas y tu esfuerzo siguen siendo tuyos.</p>
-
-    <blockquote class="dedication reveal">
-      <p>Estés donde estés mañana, ya llegaste lejos.</p>
-    </blockquote>
-
-    <!--BOTON, No mover ni por el HPTA -->
-
-    <button class="btn reveal" type="button" id="open-results">Ver mis resultados</button>
-
-    <dialog class="results-modal" id="results-modal" aria-label="Resultados de admisión UdeA">
-      <div class="results-modal__bar">
-        <a class="btn btn--ghost" href="https://resultados.udea.edu.co/" target="_blank" rel="noopener noreferrer">Abrir en pestaña nueva</a>
-        <button class="btn btn--ghost" type="button" id="close-results">Cerrar</button>
-      </div>
-      <iframe id="results-frame" title="Resultados de admisión UdeA" referrerpolicy="no-referrer"></iframe>
-    </dialog>
-  </div>
-</section>
-
- <div style="display: flex; justify-content: center;">
-   <p  class="prose reveal" >En caso de no funcionar bien dale a Abrir en pestaña nueva, porfa <3 </p> 
-</div>
- 
-  </div><!-- /bloque-resultados -->
-</div><!-- /zona-resultados -->
-
-      
-        <!--BOTON FINAL -->
-
-      <div class="volver-inicio">
-  <button
-    type="button"
-    class="btn btn--ghost btn--centrado reveal"
-    data-scroll-to="#portada"
-  >
-    Volver al inicio
-  </button>
-</div>
-   
   <!-- Footer -->
-
   <footer class="site-footer">
     <p>Hecho para Isa <br> ATT: Julián </p>
-    <hr> 
+    <hr>
   </footer>
+
+  <!-- ============ MODAL DEL CANDADO ============ -->
+  <dialog class="lock-modal" id="lock-modal" aria-labelledby="lock-title">
+    <div class="lock-card">
+      <button class="lock-close" id="lock-close" type="button" aria-label="Cerrar">&times;</button>
+
+      <p class="lock-title" id="lock-title">El día de nuestra primera conversación (WhatsApp)</p>
+
+      <svg class="lock" id="lock" viewBox="0 0 64 72" aria-hidden="true">
+        <defs>
+          <linearGradient id="lockGlass" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ffffff" stop-opacity=".38"/>
+            <stop offset="1" stop-color="#9fb4e8" stop-opacity=".12"/>
+          </linearGradient>
+        </defs>
+        <path class="lock__shackle" d="M22 34 V22 a10 10 0 0 1 20 0 V34"/>
+        <rect class="lock__body" x="14" y="32" width="36" height="28" rx="7"/>
+        <circle class="lock__hole" cx="32" cy="43" r="3.2"/>
+        <rect class="lock__hole" x="30.8" y="44" width="2.4" height="8" rx="1.2"/>
+      </svg>
+
+      <form class="lock-form" id="lock-form" autocomplete="off" novalidate>
+        <div class="pin" id="pin" role="group" aria-label="Clave de 4 dígitos">
+          <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 1">
+          <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 2">
+          <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 3">
+          <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Dígito 4">
+        </div>
+        <p class="lock-status" id="lock-status" role="status" aria-live="polite">Escribe la clave</p>
+        <button class="btn btn--glass" id="lock-submit" type="submit">Desbloquear</button>
+      </form>
+
+      <!-- ==========================================================
+           AQUÍ VA TU PDF: súbelo junto al index.html con el nombre
+           secreto.pdf (o cambia PDF_URL en script.js)
+           ========================================================== -->
+      <a class="btn btn--glass" id="lock-download" href="secreto.pdf" download="secreto.pdf" hidden>Descargar PDF</a>
+    </div>
+  </dialog>
 
   <script src="script.js"></script>
 </body>
