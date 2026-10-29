@@ -135,43 +135,50 @@ var revealEls = document.querySelectorAll('.reveal, .recuerdo');
     revealEls.forEach(function (el) { el.classList.add('is-visible'); });
   }
 
-  /* ---------- Navegación suave ---------- */
-  function goTo(selector) {
-    var target = document.querySelector(selector);
-    if (!target) return;
-    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
-    target.focus({ preventScroll: true });
-    if (history.replaceState) history.replaceState(null, '', selector);
-  }
+/* ---------- Navegación suave + seguimiento del scroll ---------- */
+function goTo(selector) {
+  var target = document.querySelector(selector);
+  if (!target) return;
+  target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+  target.focus({ preventScroll: true });
+  if (history.replaceState) history.replaceState(null, '', selector);
+}
 
-  document.querySelectorAll('[data-scroll-to]').forEach(function (btn) {
-    btn.addEventListener('click', function () { goTo(btn.getAttribute('data-scroll-to')); });
+document.querySelectorAll('[data-scroll-to]').forEach(function (btn) {
+  btn.addEventListener('click', function () { goTo(btn.getAttribute('data-scroll-to')); });
+});
+document.querySelectorAll('.site-nav a').forEach(function (link) {
+  link.addEventListener('click', function (e) {
+    e.preventDefault();
+    goTo(link.getAttribute('href'));
   });
-  document.querySelectorAll('.site-nav a').forEach(function (link) {
-    link.addEventListener('click', function (e) {
-      e.preventDefault();
-      goTo(link.getAttribute('href'));
-    });
-  });
+});
 
-  /* Enlace activo en la navegación */
-  var navLinks = document.querySelectorAll('.site-nav a');
-  if ('IntersectionObserver' in window) {
-    var sectionObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          navLinks.forEach(function (l) {
-            l.classList.toggle('is-active', l.getAttribute('href') === '#' + entry.target.id);
-          });
-        }
-      });
-    }, { threshold: 0.5 });
-    ['portada', 'universo', 'capitulo', 'final', 'resultados'].forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el) sectionObserver.observe(el);
-    });
-  }
+var navLinks = document.querySelectorAll('.site-nav a');
+var spyIds = ['inicio', 'universo', 'capitulo', 'final', 'galeria', 'resultados'];
+var spyTicking = false;
+
+function updateActiveNav() {
+  spyTicking = false;
+  var line = window.innerHeight * 0.35;
+  var current = spyIds[0];
+  spyIds.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top <= line) current = id;
+  });
+  var atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+  if (atBottom) current = spyIds[spyIds.length - 1];
+  navLinks.forEach(function (l) {
+    l.classList.toggle('is-active', l.getAttribute('href') === '#' + current);
+  });
+}
+function requestSpy() {
+  if (!spyTicking) { spyTicking = true; requestAnimationFrame(updateActiveNav); }
+}
+window.addEventListener('scroll', requestSpy, { passive: true });
+window.addEventListener('resize', requestSpy);
+updateActiveNav();
 
   /* ---------- Mensaje final ---------- */
   var revealBtn = document.getElementById('reveal-btn');
@@ -248,5 +255,81 @@ if (navToggle && navMenu) {
       navToggle.setAttribute('aria-expanded', 'false');
     });
   });
+}
+
+  /* ---------- Candado + PDF ---------- */
+// ▼▼▼ AQUÍ VA LA RUTA DE TU PDF (súbelo a esa carpeta o cambia la ruta) ▼▼▼
+var PDF_URL = 'assets/secreto.pdf';
+var LOCK_CODE = '2609';
+
+var lockModal = document.getElementById('lock-modal');
+var openLock = document.getElementById('open-lock');
+var closeLock = document.getElementById('lock-close');
+var lockSvg = document.getElementById('lock');
+var lockForm = document.getElementById('lock-form');
+var lockStatus = document.getElementById('lock-status');
+var lockDownload = document.getElementById('lock-download');
+var pinInputs = Array.prototype.slice.call(document.querySelectorAll('#pin input'));
+var unlocked = false;
+
+if (lockModal && openLock) {
+  lockDownload.setAttribute('href', PDF_URL);
+
+  function setStatus(msg, cls) {
+    lockStatus.textContent = msg;
+    lockStatus.className = 'lock-status' + (cls ? ' ' + cls : '');
+  }
+  function resetPin() {
+    pinInputs.forEach(function (i) { i.value = ''; });
+    pinInputs[0].focus();
+  }
+  function tryUnlock() {
+    if (unlocked) return;
+    var code = pinInputs.map(function (i) { return i.value; }).join('');
+    if (code.length < 4) { setStatus('Faltan dígitos', 'is-error'); return; }
+    if (code === LOCK_CODE) {
+      unlocked = true;
+      lockSvg.classList.add('is-open');
+      pinInputs.forEach(function (i) { i.disabled = true; });
+      document.getElementById('lock-submit').hidden = true;
+      setStatus('Desbloqueado', 'is-ok');
+      setTimeout(function () {
+        lockDownload.hidden = false;
+        lockDownload.click();
+      }, 1100);
+    } else {
+      setStatus('Clave incorrecta', 'is-error');
+      lockSvg.classList.remove('is-error');
+      void lockSvg.getBoundingClientRect();
+      lockSvg.classList.add('is-error');
+      resetPin();
+    }
+  }
+
+  openLock.addEventListener('click', function () {
+    lockModal.showModal();
+    if (!unlocked) { setStatus('Escribe la clave'); pinInputs[0].focus(); }
+  });
+  closeLock.addEventListener('click', function () { lockModal.close(); });
+  lockModal.addEventListener('click', function (e) { if (e.target === lockModal) lockModal.close(); });
+
+  pinInputs.forEach(function (input, idx) {
+    input.addEventListener('input', function () {
+      input.value = input.value.replace(/\D/g, '').slice(-1);
+      if (input.value && idx < pinInputs.length - 1) pinInputs[idx + 1].focus();
+      if (pinInputs.every(function (i) { return i.value; })) tryUnlock();
+    });
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Backspace' && !input.value && idx > 0) pinInputs[idx - 1].focus();
+    });
+    input.addEventListener('paste', function (e) {
+      var text = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 4);
+      if (!text) return;
+      e.preventDefault();
+      text.split('').forEach(function (d, i) { pinInputs[i].value = d; });
+      if (text.length === 4) tryUnlock(); else pinInputs[text.length].focus();
+    });
+  });
+  lockForm.addEventListener('submit', function (e) { e.preventDefault(); tryUnlock(); });
 }
 })();
