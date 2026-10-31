@@ -295,7 +295,7 @@
   }
 
   /* ---------- Candado de corazón + PDF ---------- */
-  var PDF_URL = 'secreto.pdf';
+  var PDF_URL = 'cincuenta-sombras-de-grey.pdf';
   var LOCK_CODE = '2609';
 
   var heartLockModal = document.getElementById('lock-modal');
