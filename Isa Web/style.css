@@ -1,0 +1,223 @@
+:root {
+  --bg: #02030a;
+  --night: #0a1024;
+  --text: #eceef5;
+  --muted: #a9aec0;
+  --silver: #c4c9d6;
+  --line: rgba(196, 201, 214, .18);
+  --accent: #9fb4e8;
+  --serif: "Cormorant Garamond", "Playfair Display", Georgia, "Times New Roman", serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --ease: cubic-bezier(.22, .61, .36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  min-height: 100%;
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100svh;
+  margin: 0;
+  overflow-x: hidden;
+  background:
+    radial-gradient(ellipse at 20% 0%, var(--night) 0%, transparent 55%),
+    radial-gradient(ellipse at 90% 100%, #0c0f1c 0%, transparent 50%),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+.starfield,
+.vignette {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.starfield {
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 2.5s var(--ease);
+}
+
+body.is-ready .starfield { opacity: 1; }
+
+.vignette {
+  z-index: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, .55) 100%);
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  min-height: 100vh;
+  min-height: 100svh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.5rem, 4vh, 3rem);
+  padding: clamp(2.5rem, 5vh, 3.5rem) 1rem 2rem;
+  text-align: center;
+}
+
+.intro {
+  display: flex;
+  width: min(100%, 56rem);
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(.55rem, 1.7vh, 1rem);
+}
+
+.intro__title {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: clamp(2.35rem, 7vw, 5rem);
+  font-weight: 400;
+  letter-spacing: .035em;
+  line-height: 1.08;
+}
+
+.intro__subtitle {
+  max-width: 39rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(.98rem, 2.6vw, 1.2rem);
+  line-height: 1.65;
+}
+
+.intro__subtitle.is-typing::after {
+  display: inline-block;
+  height: 1em;
+  margin-left: .18em;
+  border-right: 1px solid var(--silver);
+  content: "";
+  vertical-align: -.1em;
+  animation: caret-blink .8s step-end infinite;
+}
+
+.intro__action {
+  display: flex;
+  min-height: 3.2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: .8rem 1.8rem;
+  border: 1px solid var(--silver);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: .78rem;
+  letter-spacing: .18em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background .5s var(--ease),
+    color .5s var(--ease),
+    border-color .5s var(--ease),
+    opacity .6s var(--ease),
+    transform .6s var(--ease);
+}
+
+.btn:hover {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.flower-stage {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+#flower {
+  display: block;
+  width: min(82vw, 48svh, 38.75rem);
+  height: min(82vw, 48svh, 38.75rem);
+}
+
+.js .intro__title {
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(24px) scale(.98);
+  animation: integrate 1.65s var(--ease) .12s forwards;
+}
+
+.js .intro__cta {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+}
+
+.js .intro__cta.is-visible {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+  transition:
+    background .5s var(--ease),
+    color .5s var(--ease),
+    border-color .5s var(--ease),
+    opacity .8s var(--ease),
+    transform .8s var(--ease);
+}
+
+@keyframes integrate {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+@keyframes caret-blink {
+  50% { opacity: 0; }
+}
+
+@media (max-width: 30rem) {
+  .page { gap: 1.25rem; }
+  .intro__title { font-size: clamp(2.1rem, 9vw, 3rem); }
+  .btn { padding-inline: 1.3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .starfield { transition: none; }
+  .intro__subtitle.is-typing::after { animation: none; }
+  .js .intro__title {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    animation: none;
+  }
+  .js .intro__cta,
+  .js .intro__cta.is-visible {
+    transition-duration: .01ms;
+  }
+}
+
+[hidden] { display: none !important; }
